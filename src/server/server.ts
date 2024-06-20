@@ -1,6 +1,6 @@
 import app from "./src/index";
 
-const port = 3000;
+const port = 1337;
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
