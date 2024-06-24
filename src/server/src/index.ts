@@ -1,8 +1,21 @@
 import express from "express";
 import { userRouter } from "./routes";
+import {connect, isAlive} from './utils/db'
 
-const app = express();
 
-app.use('/users', userRouter)
+async function setup() {
+    const app = express();
+    await connect();
 
-export default app;
+    app.get('/stats', (req, res) => {
+        const value = isAlive()
+        res.json({ dbConnection : value})
+    })
+    
+    app.use('/users', userRouter)
+
+    return app
+}   
+
+
+export default setup;

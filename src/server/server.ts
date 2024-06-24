@@ -1,7 +1,10 @@
-import app from "./src/index";
+import setup from "./src/index";
 
-const port = 1337;
+(async () => {
+  const app = await setup()
+  app.listen(1337, () =>{
+    console.log('Server listening on port: 5000')
+  })
+  
+})();
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-  });
