@@ -1,9 +1,8 @@
 import express from "express";
+import { userRouter } from "./routes";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send("Hello, TypeScript From Express!");
-});
+app.use('/users', userRouter)
 
 export default app;

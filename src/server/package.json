@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build":"tsc",
+    "build": "tsc",
     "dev": "ts-node-dev --respawn --transpile-only server.ts"
   },
   "keywords": [],
@@ -12,6 +12,7 @@
   "description": "",
   "dependencies": {
     "express": "^4.19.2",
+    "mongoose": "^8.4.3",
     "zod": "^3.23.8"
   },
   "devDependencies": {
