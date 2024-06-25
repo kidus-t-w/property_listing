@@ -3,6 +3,7 @@ import Filters from "@/components/common/Filters";
 import PageTitle from "@/components/common/PageTitle";
 import Card from "@/components/common/Card";
 import PropertyListing from "@/assets/img/propertyImage.jpeg";
+import { Link } from "react-router-dom";
 
 // Assets
 // import Logo from "../assets/img/H logo_Name.png";
@@ -17,11 +18,13 @@ const Home = () => {
         <PageTitle title="Properties" />
         <Filters />
       </div>
+      < Link to='/property_detail'>
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 place-items-center gap-8 mt-6">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((value) => {
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(() => {
           return < Card/>
         })}
       </div>
+      </Link>
     </div>
   );
 };
