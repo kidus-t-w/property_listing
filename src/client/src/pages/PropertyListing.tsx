@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import Sidebar from '@/components/common/SideBar';
+import PropertyList from '@/components/common/PropertyList';
 
-function PropertyListing() {
+const PropertyListing: React.FC = () => {
   return (
-    <div>PropertyListing</div>
-  )
-}
+    <div className="flex flex-col lg:flex-row">
+      <Sidebar />
+      <PropertyList />
+    </div>
+  );
+};
 
-export default PropertyListing
+export default PropertyListing;
