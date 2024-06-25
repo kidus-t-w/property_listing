@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import Sidebar from '@/components/common/SideBar';
+import Profile from '@/components/common/Profile';
 
-function Profile() {
+const MyProfile: React.FC = () => {
   return (
-    <div>Profile</div>
-  )
-}
+    <div className="flex flex-col lg:flex-row">
+      <Sidebar />
+      <Profile />
+    </div>
+  );
+};
 
-export default Profile
+export default MyProfile;
