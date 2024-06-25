@@ -1,9 +1,13 @@
-import React from 'react'
+import Sidebar from '@/components/common/SideBar';
+import PropertyForm from '@/components/common/PropertyForm';
 
-function CreateListing() {
+const PropertyListing: React.FC = () => {
   return (
-    <div>CreateListing</div>
-  )
-}
+    <div className="flex flex-col lg:flex-row">
+      <Sidebar />
+      <PropertyForm />
+    </div>
+  );
+};
 
-export default CreateListing
+export default PropertyListing;
