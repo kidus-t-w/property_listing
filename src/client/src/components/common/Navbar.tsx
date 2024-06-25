@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { Menu } from "lucide-react";
-import {Button} from "@/components/ui/button"
 
 function Navbar() {
   const [showMenu, setShowMenu] = useState(false);

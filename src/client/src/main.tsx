@@ -9,8 +9,6 @@ import PropertyDetail from '@/pages/PropertyDetail.tsx'
 import {
   createBrowserRouter,
   RouterProvider,
-  Route,
-  Link,
 } from "react-router-dom";
 import PropertyListing from "./pages/PropertyListing.tsx";
 import CreateListing from "./pages/CreateListing.tsx";

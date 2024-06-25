@@ -6,7 +6,6 @@ import Logo from "../../assets/img/H logo_Name.png";
 // Components
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/common/Navbar";
-import { Menu } from "lucide-react";
 
 export default function Header() {
   return (
