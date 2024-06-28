@@ -1,5 +1,5 @@
 import express from "express";
-import { userRouter } from "./routes";
+import { userRouter, propertyRouter } from "./routes";
 import { connect, isAlive } from "./utils/db";
 
 async function setup() {
@@ -12,6 +12,7 @@ async function setup() {
     res.json({ dbConnection: value });
   });
 
+  app.use('/properties', propertyRouter);
   app.use("/users", userRouter);
   return app;
 }
