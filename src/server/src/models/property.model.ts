@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { nullable } from "zod";
 
 const PropertyDescriptionSchema = new mongoose.Schema({
   propertyId: {
@@ -43,23 +44,27 @@ const PropertyDetailSchema = new mongoose.Schema({
 });
 
 const PropertySchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    required: true,
+  },
   description: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "PropertyDescription",
-    required: true,
+    required: false,
   },
   price: { type: mongoose.Schema.Types.Decimal128, required: true },
   images: [{ type: String, required: true }],
   details: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "PropertyDetail",
-    required: true,
+    required: false,
   },
   location: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "PropertyLocation",
-    required: true,
+    required: false,
   },
 });
 
