@@ -8,10 +8,12 @@ import {
   getSingleUserHandler,
 } from "../controllers/users.controller";
 import validateResource from "../utils/validateResource";
-import { createUserSchema } from "../schemas/user.schema";
+import { createUserSchema, updateUserSchema } from "../schemas/user.schema";
 
 const userRouter = Router();
-
+/**
+ * Get users
+ */
 userRouter.get("/", getUsersHandler);
 // userRouter.get("/me", getAuthenticatedUserHandler);
 
@@ -20,7 +22,14 @@ userRouter.get("/", getUsersHandler);
  */
 userRouter.post("/", validateResource(createUserSchema), createUserHandler);
 
-userRouter.put("/", updateUserHandler);
+/**
+ * Update a user
+ */
+userRouter.put("/:id", validateResource(updateUserSchema), updateUserHandler);
+
+/**
+ * Delete a user
+ */
 userRouter.delete("/:id", deleteUserHandler);
 
 export default userRouter;
