@@ -1,8 +1,8 @@
 import { Response, Request } from "express";
-import { getAllUsers, createUser, deleteUser } from "../services/users.service";
+import { getAllUsers, createUser, deleteUser, updateUser } from "../services/users.service";
 
 import logger from "../utils/logger";
-import { CreateUserInput } from "../schemas/user.schema";
+import { CreateUserInput, UpdateUserInput } from "../schemas/user.schema";
 import UserModel from "../models/user.model";
 
 export async function getUsersHandler(req: Request, res: Response) {
@@ -38,27 +38,40 @@ export async function createUserHandler(
   });
 
   if (user instanceof Error) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Email address is already in use.",
-      });
+    return res.status(400).json({
+      error: "Email address is already in use.",
+    });
   }
 
   // Return the newly created user with status code of 200
   return res.send(user);
 }
 
-export async function updateUserHandler(req: Request, res: Response) {
-  const userId = req.params.id
-  const user = UserModel.findById(userId)
-  deleteUser(user)
+export async function updateUserHandler(
+  req: Request<{ id: string }, {}, UpdateUserInput["body"]>,
+  res: Response
+) {
+  const userId = req.params.id;
+  const update = req.body;
 
+  const updatedUser = await updateUser(userId, update);
 
-  return res.send("User updated successfylly");
+  if (updatedUser instanceof Error) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  return res.json(updatedUser);
 }
 
+
 export async function deleteUserHandler(req: Request, res: Response) {
+  const userId = req.params.id;
+
+  const user = await deleteUser(userId);
+
+  if (user instanceof Error) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
   return res.send("User deleted successfully.");
 }
