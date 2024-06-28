@@ -15,7 +15,26 @@ export async function createUser(values: UserInput) {
   }
 }
 
-export async function deleteUser(value: UserInput) {
-  const user = UserModel.deleteOne(value)
-  return user
+export async function deleteUser(userId: string) {
+  try {
+    const user = await UserModel.findByIdAndDelete(userId);
+    if (!user) {
+      return new Error("User not found");
+    }
+    return user;
+  } catch (err: any) {
+    return new Error("Error deleting user");
+  }
+}
+
+export async function updateUser(userId: string, update: Partial<UserInput>) {
+  try {
+    const user = await UserModel.findByIdAndUpdate(userId, update, { new: true });
+    if (!user) {
+      return new Error("User not found");
+    }
+    return user;
+  } catch (err: any) {
+    return new Error("Error updating user");
+  }
 }
