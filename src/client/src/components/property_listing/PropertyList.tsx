@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PlaceHolder from '@/assets/img/propertyImage.jpeg'
+import { Link } from 'react-router-dom';
 
 interface Property {
   id: number;
@@ -38,7 +39,8 @@ const PropertyList: React.FC = () => {
     <div className="flex-grow p-6 bg-white">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Properties</h1>
-        <button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Create Listing</button>
+        < Link to='/create_listing'><button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Create Listing</button></Link>
+        
       </div>
 
       <div className="mb-6">

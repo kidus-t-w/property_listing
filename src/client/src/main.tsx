@@ -3,17 +3,15 @@ import App from "./App.tsx";
 import "./index.css";
 
 import Home from "./pages/Home.tsx";
-import Profile from "./pages/Profile.tsx"
-import Services from "./pages/Services.tsx"
-import PropertyDetail from '@/pages/PropertyDetail.tsx'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import Profile from "./pages/Profile.tsx";
+import Services from "./pages/Services.tsx";
+import PropertyDetail from "@/pages/PropertyDetail.tsx";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PropertyListing from "./pages/PropertyListing.tsx";
 import CreateListing from "./pages/CreateListing.tsx";
 import Contact from "./pages/Contact.tsx";
-import Login from "./pages/Login.tsx";
+import AuthPage from "./pages/Auth.tsx";
+
 
 const router = createBrowserRouter([
   {
@@ -22,38 +20,38 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home/>
+        element: <Home />,
       },
       {
-        path: "profile",
-        element: <Profile/>
+        path: "services",
+        element: <Services />,
       },
       {
-        path: 'services',
-        element: <Services/>
+        path: "property_detail",
+        element: <PropertyDetail />,
       },
       {
-        path: 'property_listing',
-        element: <PropertyListing/>
+        path: "contact",
+        element: <Contact />,
       },
-      {
-        path: 'property_detail',
-        element: <PropertyDetail />
-      },
-      {
-        path: 'create_listing',
-        element: <CreateListing />
-      },
-      {
-        path: 'contact',
-        element: <Contact />
-      }
-    ]
+    ],
   },
   {
-    path: "/login",
-    element: <Login/>
-  }
+    path: "/auth",
+    element: <AuthPage />,
+  },
+  {
+    path: "create_listing",
+    element: <CreateListing />,
+  },
+  {
+    path: "property_listing",
+    element: <PropertyListing />,
+  },
+  {
+    path: "profile",
+    element: <Profile />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

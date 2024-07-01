@@ -55,7 +55,7 @@ export default function LoginForm() {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="h-[400px] w-1/3 space-y-4"
+        className="h-full w-full space-y-4"
       >
         {/* Email Input */}
         <FormField

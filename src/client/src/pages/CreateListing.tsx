@@ -1,11 +1,11 @@
-import Sidebar from '@/components/common/SideBar';
-import PropertyForm from '@/components/common/PropertyForm';
+import Sidebar from '@/components/property_listing/SideBar';
+import NewProperty from '@/components/property_listing/PropertyCreat'
 
 const PropertyListing: React.FC = () => {
   return (
     <div className="flex flex-col lg:flex-row">
       <Sidebar />
-      <PropertyForm />
+      <NewProperty/>
     </div>
   );
 };
