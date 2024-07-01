@@ -1,9 +1,7 @@
 import { Response, Request } from "express";
 import { getAllUsers, createUser, deleteUser, updateUser } from "../services/users.service";
 
-import logger from "../utils/logger";
 import { CreateUserInput, UpdateUserInput } from "../schemas/user.schema";
-import UserModel from "../models/user.model";
 
 export async function getUsersHandler(req: Request, res: Response) {
   const users = await getAllUsers();

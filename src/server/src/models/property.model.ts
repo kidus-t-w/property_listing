@@ -1,5 +1,49 @@
 import mongoose from "mongoose";
-import { nullable } from "zod";
+import { nullable, string } from "zod";
+
+
+// Interface for PropertyDescription
+export interface IPropertyDescription extends mongoose.Document {
+  propertyId: mongoose.Types.ObjectId;
+  title: string;
+  description: string;
+  status: string;
+  type: string;
+}
+
+// Interface for PropertyLocation
+export interface IPropertyLocation extends mongoose.Document {
+  propertyId: mongoose.Types.ObjectId;
+  address: string;
+  country: string;
+  city: string;
+  subCity: string;
+}
+
+// Interface for PropertyDetail
+export interface IPropertyDetail extends mongoose.Document {
+  propertyId: mongoose.Types.ObjectId;
+  furnished: string;
+  bathrooms: string;
+  areaSize: string;
+  landArea: string;
+  garages: string;
+  yearBuilt: string;
+  bedrooms: string;
+  floor: string;
+  sizePostfix: string;
+  landAreaSizePostfix: string;
+}
+
+// Interface for Property
+export interface IProperty extends mongoose.Document {
+  userId: mongoose.Types.ObjectId;
+  description?: mongoose.Types.ObjectId;
+  price: string;
+  images: string[];
+  details?: mongoose.Types.ObjectId;
+  location?: mongoose.Types.ObjectId;
+}
 
 const PropertyDescriptionSchema = new mongoose.Schema({
   propertyId: {
@@ -53,8 +97,9 @@ const PropertySchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "PropertyDescription",
     required: false,
+
   },
-  price: { type: mongoose.Schema.Types.Decimal128, required: true },
+  price: { type: String, required: true },
   images: [{ type: String, required: true }],
   details: {
     type: mongoose.Schema.Types.ObjectId,
