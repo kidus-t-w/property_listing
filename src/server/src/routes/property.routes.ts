@@ -1,18 +1,24 @@
-import { Router } from 'express';
+import { Router } from 'express'
+import requireUser from '../middlewares/requireUser'
+import validateResource from '../utils/validateResource'
+import {
+    createPropertySchema,
+    getPropertySchema,
+    updatePropertySchema,
+    deletePropertySchema
+} from '../schemas/property.schema'
 import {
     createPropertyHandler,
-    getPropertiesHandler,
-    getPropertyByIdHandler,
+    getPropertyHandler,
     updatePropertyHandler,
     deletePropertyHandler
-} from '../controllers/property.controller';
+} from '../controllers/property.controller'
 
-const propertyRouter = Router();
+const propertyRouter = Router()
 
-propertyRouter.post('/', createPropertyHandler);
-propertyRouter.get('/', getPropertiesHandler);
-propertyRouter.get('/:id', getPropertyByIdHandler);
-propertyRouter.put('/:id', updatePropertyHandler);
-propertyRouter.delete('/:id', deletePropertyHandler);
+propertyRouter.get('/:id', requireUser, validateResource(getPropertySchema), getPropertyHandler)
+propertyRouter.post('/', requireUser, validateResource(createPropertySchema), createPropertyHandler)
+propertyRouter.put('/:id', requireUser, validateResource(updatePropertySchema), updatePropertyHandler)
+propertyRouter.delete('/:id', requireUser, validateResource(deletePropertySchema), deletePropertyHandler)
 
-export default propertyRouter;
+export default propertyRouter

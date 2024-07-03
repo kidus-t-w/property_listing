@@ -1,90 +1,73 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express'
 import {
-  Property,
-  PropertyDescription,
-  PropertyLocation,
-  PropertyDetail,
-} from "../models/property.model";
-import mongoose from "mongoose";
+  CreatePropertyInput,
+  DeletePropertyInput,
+  ReadPropertyInput,
+  UpdatePropertyInput
+} from '../schemas/property.schema'
 import {
   createProperty,
   deleteProperty,
-  getAllProperties,
-  getPropertyById,
-  updateProperty,
-} from "../services/property.service";
+  findAndUpdateProperty,
+  findManyProperty,
+  findProperty
+} from '../services/property.service'
 
-// Create a new property
-export async function createPropertyHandler(req: Request, res: Response) {
-  try {
-    const propertyData = req.body;
-    const newProperty = await createProperty(propertyData);
-    res.status(201).json(newProperty);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unknown error" });
-    }
-  }
+export async function createPropertyHandler(req: Request<{}, {}, CreatePropertyInput['body']>, res: Response) {
+  const userId = res.locals.user._id
+  const body = req.body
+
+  const property = await createProperty({ ...body, userId })
+  return res.status(200).json(property)
 }
-// Get all properties
+
+export async function updatePropertyHandler(req: Request<UpdatePropertyInput['params'], {}, UpdatePropertyInput['body']>, res: Response) {
+  const userId = res.locals.user._id
+  const propertyId = req.params.id
+  const update = req.body
+
+  const property = await findProperty({ _id: propertyId })
+  if (!property) {
+    return res.sendStatus(404)
+  }
+
+  if (String(property.userId) !== userId) {
+    return res.sendStatus(403)
+  }
+
+  const updateProperty = await findAndUpdateProperty({ _id: propertyId }, update, { new: true })
+  return res.status(200).json(updateProperty)
+}
+
+export async function getPropertyHandler(req: Request<ReadPropertyInput['params'], {}, {}>, res: Response) {
+  const propertyId = req.params.id
+
+  const property = await findProperty({ _id: propertyId })
+  if (!property) {
+    return res.sendStatus(404)
+  }
+
+  return res.status(200).json(property)
+}
+
 export async function getPropertiesHandler(req: Request, res: Response) {
-  try {
-    const properties = await getAllProperties();
-    res.status(200).json(properties);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unknown error" });
-    }
-  }
+  // TODO: Here is where i set query params
+  return await findManyProperty({})
 }
 
-// Get a single property by ID
-export async function getPropertyByIdHandler(req: Request, res: Response) {
-  try {
-    const propertyId = req.params.id;
-    const property = await getPropertyById(propertyId);
-    res.status(200).json(property);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unknown error" });
-    }
-  }
-}
+export async function deletePropertyHandler(req: Request<DeletePropertyInput['params']>, res: Response) {
+  const userId = res.locals.user._id
+  const propertyId = req.params.id
 
-// Update a property by ID
-export async function updatePropertyHandler(req: Request, res: Response) {
-  try {
-    const propertyId = req.params.id;
-    const updateData = req.body;
-
-    const updatedProperty = await updateProperty(propertyId, updateData);
-    res.status(200).json(updatedProperty);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unknown error" });
-    }
+  const property = await findProperty({ _id: propertyId })
+  if (!property) {
+    return res.sendStatus(404)
   }
-}
 
-// Delete a property by ID
-export async function deletePropertyHandler(req: Request, res: Response) {
-  try {
-    const propertyId = req.params.id;
-    const result = await deleteProperty(propertyId);
-    res.status(200).json(result);
-  } catch (error) {
-    if (error instanceof Error) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.status(500).json({ error: "Unknown error" });
-    }
+  if (String(property.userId) !== userId) {
+    return res.sendStatus(403)
   }
+
+  await deleteProperty({ _id: propertyId })
+  return res.sendStatus(200)
 }

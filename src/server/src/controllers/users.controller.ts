@@ -1,75 +1,60 @@
-import { Response, Request } from "express";
-import { getAllUsers, createUser, deleteUser, updateUser } from "../services/users.service";
-
-import { CreateUserInput, UpdateUserInput } from "../schemas/user.schema";
+import _ from 'lodash'
+import { Request, Response } from 'express'
+import { createUser, deleteUser, findAndUpdateUser, getUser, getUsers } from '../services/users.service'
+import { CreateUserInput, DeleteUserInput, ReadUserInput, UpdateUserInput } from '../schemas/user.schema'
 
 export async function getUsersHandler(req: Request, res: Response) {
-  const users = await getAllUsers();
-  return res.json(users);
+  const users = await getUsers({})
+  return res.status(200).json(_.map(users, user => _.omit(user, ['password', '__v'])))
 }
 
-export async function getSingleUserHandler(req: Request, res: Response) {
-  const id = req.params.value;
-  console.log(id);
-  return res.send("This is a single user");
+export async function getUserHandler(req: Request<ReadUserInput['params'], {}, {}>, res: Response) {
+  const { id } = req.params
+  const user = await getUser({ _id: id })
+
+  if (!user)
+    return res.status(404).json({ error: 'User not found.' })
+  return res.status(200).json(_.omit(user, ['password', '__v']))
 }
 
-export async function getAuthenticatedUserHandler(req: Request, res: Response) {
-  return res.send("This is the authenticated user");
-}
-
-// if it is not a default export then it is called a named export --> NOTE
 export async function createUserHandler(
   req: Request<{}, {}, CreateUserInput["body"]>,
   res: Response
 ) {
-  const { email, password, firstName, lastName, phoneNumber } = req.body;
-
-  // Create the user
-
-  const user = await createUser({
-    email,
-    password,
-    firstName: firstName ? firstName : null,
-    lastName: lastName ? lastName : null,
-    phoneNumber: phoneNumber ? phoneNumber : null,
-  });
-
-  if (user instanceof Error) {
-    return res.status(400).json({
-      error: "Email address is already in use.",
-    });
+  try {
+    const user = await createUser(req.body)
+    if (user instanceof Error) throw user
+    return res.status(201).json(user)
+  } catch (error: any) {
+    return res.status(409).send(error.message)
   }
-
-  // Return the newly created user with status code of 200
-  return res.send(user);
 }
 
 export async function updateUserHandler(
-  req: Request<{ id: string }, {}, UpdateUserInput["body"]>,
+  req: Request<UpdateUserInput['params'], {}, UpdateUserInput['body']>,
   res: Response
 ) {
-  const userId = req.params.id;
-  const update = req.body;
+  const { id } = req.params
+  const update = req.body
+  const user = await getUser({ _id: id })
 
-  const updatedUser = await updateUser(userId, update);
+  if (!user)
+    return res.status(404).json({ error: 'User not found.' })
 
-  if (updatedUser instanceof Error) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  return res.json(updatedUser);
+  const updatedUser = await findAndUpdateUser({ _id: id }, update, { new: true })
+  if (!updatedUser)
+    return res.status(500).json({ error: 'Unable to update user.' })
+  return res.status(200).json(_.omit(updatedUser.toJSON(), ['createdAt', 'updatedAt', '__v', 'password']))
 }
 
 
-export async function deleteUserHandler(req: Request, res: Response) {
-  const userId = req.params.id;
+export async function deleteUserHandler(req: Request<DeleteUserInput['params'], {}, {}>, res: Response) {
+  const { id } = req.params
+  const user = await getUser({ _id: id })
 
-  const user = await deleteUser(userId);
+  if (!user)
+    return res.status(404).json({ error: 'User not found.' })
 
-  if (user instanceof Error) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  return res.send("User deleted successfully.");
+  await deleteUser({ _id: id })
+  return res.sendStatus(200)
 }

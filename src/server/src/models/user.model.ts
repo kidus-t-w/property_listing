@@ -1,17 +1,19 @@
+import config from 'config' 
 import mongoose from "mongoose";
-import { nullable } from "zod";
+import bcrypt from 'bcrypt'
 
 export interface UserInput {
-  firstName: string | null;
-  lastName: string | null;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
   password: string;
   email: string;
-  phoneNumber: string | null;
+  phoneNumber?: string | undefined;
 }
 
-export interface UserDocumnet extends UserInput, mongoose.Document {
+export interface UserDocument extends UserInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
+  comparePassword(candidatePassword: string) : Promise<boolean>
 }
 
 const userSchema = new mongoose.Schema(
@@ -27,5 +29,21 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const UserModel = mongoose.model<UserDocumnet>("Users", userSchema);
+userSchema.pre('save', async function (next) {
+  let user = this as UserDocument
+  
+  if (!user.isModified('password')) 
+    return next()
+  
+  const salt = await bcrypt.genSalt(config.get<number>('saltWorkFactor'))
+  user.password = await bcrypt.hash(user.password, salt)
+  return next()
+})
+
+userSchema.methods.comparePassword = async function (candidatePassword: string) {
+  const user = this as UserDocument
+  return bcrypt.compare(candidatePassword, user.password).catch(e => false)
+}
+
+const UserModel = mongoose.model<UserDocument>("Users", userSchema);
 export default UserModel;

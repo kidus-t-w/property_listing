@@ -1,40 +1,40 @@
-import UserModel, { UserInput } from "../models/user.model";
+import _ from 'lodash'
+import logger from '../utils/logger'
+import { FilterQuery, QueryOptions, UpdateQuery } from 'mongoose'
+import UserModel, { UserDocument, UserInput } from '../models/user.model'
 
-export async function getAllUsers() {
-  const users = await UserModel.find({});
-  return users;
+export async function getUser(query: FilterQuery<UserDocument>) {
+  return UserModel.findOne(query).lean()
 }
 
-export async function createUser(values: UserInput) {
-  // I want to create a user
+export async function getUsers(query: FilterQuery<UserDocument>) {
+  return UserModel.find(query).lean()
+}
+
+export async function createUser(input: UserInput) {
   try {
-    const user = await UserModel.create(values);
-    return user;
-  } catch (err: any) {
-    return new Error("Email duplicate not allowed.");
+    const user = await UserModel.create(input)
+    return _.omit(user.toJSON(), "password")
+  } catch (e: any) {
+    logger.error(e)
+    return new Error(e)
   }
 }
 
-export async function deleteUser(userId: string) {
-  try {
-    const user = await UserModel.findByIdAndDelete(userId);
-    if (!user) {
-      return new Error("User not found");
-    }
-    return user;
-  } catch (err: any) {
-    return new Error("Error deleting user");
-  }
+export async function deleteUser(query: FilterQuery<UserDocument>) {
+  return UserModel.deleteOne(query)
 }
 
-export async function updateUser(userId: string, update: Partial<UserInput>) {
-  try {
-    const user = await UserModel.findByIdAndUpdate(userId, update, { new: true });
-    if (!user) {
-      return new Error("User not found");
-    }
-    return user;
-  } catch (err: any) {
-    return new Error("Error updating user");
-  }
+export async function findAndUpdateUser(query: FilterQuery<UserDocument>, update: UpdateQuery<UserDocument>, options: QueryOptions) {
+  return UserModel.findOneAndUpdate(query, update, options)
+}
+
+export async function validatePassword({email, password}: {email: string, password: string}) {
+  const user = await UserModel.findOne({email})
+  if (!user) return false
+  
+  const isValid = await user.comparePassword(password)
+  
+  if (!isValid) return false
+  return _.omit(user.toJSON(), 'password')
 }
