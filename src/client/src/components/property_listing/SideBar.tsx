@@ -10,7 +10,7 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <div>
+    <>
       <div className="flex items-center justify-between bg-gray-900 p-4 text-white lg:hidden">
         <Link to="/" className="text-2xl font-bold">
           Ethio Property
@@ -41,44 +41,42 @@ const Sidebar: React.FC = () => {
           </svg>
         </button>
       </div>
-      <div
-        className={`min-h-[852px] flex-col bg-gray-900 text-white lg:flex lg:h-screen lg:w-64 ${isMenuOpen ? "block" : "hidden"} lg:block`}
-      >
+      <div className="min-w-80 bg-gray-900 text-white">
         <Link to="/" className="hidden p-4 text-2xl font-bold lg:block">
           Ethio Property
         </Link>
-        <nav className="flex-grow">
-          <ul>
-            <Link to="/property_listing">
-              <li className="flex p-4 hover:bg-gray-700">
-                <div className="flex">
-                  {" "}
-                  <List className="mr-4" /> <p>Properties</p>
-                </div>
-              </li>
-            </Link>
-            <Link to="/create_listing">
-              <li className="flex p-4 hover:bg-gray-700">
-                <ClipboardPlus className="mr-4" />
+        <nav>
+          <ul className="flex flex-col items-start">
+            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+              <Link to="/profile/listings" className="flex gap-2">
+                <List /> <p>Properties</p>
+              </Link>
+            </li>
+            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+              <Link to="/profile/create_listing" className="flex gap-2">
+                <ClipboardPlus />
                 <p>Create Listing</p>
-              </li>
-            </Link>
-            <Link to="/profile">
-              <li className="flex p-4 hover:bg-gray-700">
-                <CircleUserRound className="mr-4" />
+              </Link>
+            </li>
+            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+              <Link to="/profile" className="flex gap-2">
+                <CircleUserRound />
                 <p>My Profile</p>
-              </li>
-            </Link>
+              </Link>
+            </li>
+            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+              <Link to="/" className="flex gap-2">
+                <LogOut />
+                <p>Log Out</p>
+              </Link>
+            </li>
           </ul>
         </nav>
-        <div className="mt-auto p-4 hover:bg-gray-700">
-          <a href="#" className="flex">
-            <LogOut className="mr-4" />
-            <p>Log Out</p>
-          </a>
+        <div className="p-4 hover:bg-gray-700">
+          <a href="#" className="flex gap-2"></a>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

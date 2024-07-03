@@ -3,15 +3,20 @@ import App from "./App.tsx";
 import "./index.css";
 
 import Home from "./pages/Home.tsx";
-import Profile from "./pages/Profile.tsx";
+import ProfileForm from "./components/property_listing/Profile.tsx";
+
 import Services from "./pages/Services.tsx";
 import PropertyDetail from "@/pages/PropertyDetail.tsx";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import PropertyListing from "./pages/PropertyListing.tsx";
 import CreateListing from "./pages/CreateListing.tsx";
 import Contact from "./pages/Contact.tsx";
 import AuthPage from "./pages/Auth.tsx";
-
+import Search from "./pages/Search.tsx";
+import LoginPage from "./pages/Login.tsx";
+import SignUpPage from "./pages/SignUp.tsx";
+import PropertyList from "./components/property_listing/PropertyList.tsx";
+import MyProfile from "./pages/Profile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -41,16 +46,42 @@ const router = createBrowserRouter([
     element: <AuthPage />,
   },
   {
-    path: "create_listing",
+    path: "/create_listing",
     element: <CreateListing />,
   },
   {
-    path: "property_listing",
+    path: "/property_listing",
     element: <PropertyListing />,
   },
   {
-    path: "profile",
-    element: <Profile />,
+    path: "/profile",
+    element: <MyProfile />,
+    children: [
+      {
+        path: "",
+        element: <ProfileForm />,
+      },
+      {
+        path: "listings",
+        element: <PropertyListing />,
+      },
+      {
+        path: "create_listing",
+        element: <CreateListing/>
+      }
+    ]
+  },
+  {
+    path: "/search",
+    element: <Search />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/signup",
+    element: <SignUpPage />,
   },
 ]);
 

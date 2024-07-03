@@ -67,7 +67,7 @@ export default function SignUpForm() {
         },
         body: JSON.stringify(rest),
       });
-      return redirect("/auth"); // Redirect to login page
+      return redirect("/login"); // Redirect to login page
       console.log("User created succesfully");
     } catch (error: any) {
       console.error(error);

@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import {Menu} from "lucide-react";
+import { ChevronRight, Menu } from "lucide-react";
 
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 mb-4 flex items-center justify-between border-b-2 bg-gray-100 p-2 px-4">
+    <header className="sticky top-0 z-50 mb-4 flex items-center justify-between border-b-2 bg-gray-100 py-2 px-4 h-16 font-poppins">
       <Link to="/" className="flex items-center">
         <h1 className="text-2xl font-bold">Ethio Property</h1>
       </Link>
-      <nav className="hidden sm:flex gap-16 font-semibold">
+      <nav className="hidden gap-16 font-semibold sm:flex">
         <Link to="/" className="text-gray-700 hover:text-gray-900">
           Home
         </Link>
@@ -22,33 +22,51 @@ export default function Header() {
           Contact
         </Link>
       </nav>
-      <div className="hidden sm:flex items-center space-x-4">
-        <Link to="/create_listing">
-          <Button className="w-[100px] bg-blue-700" >Free Listing</Button>
-        </Link>
-        <Link to="/auth" className="text-gray-700 hover:text-gray-900">
-          <Button className="w-[100px] bg-pink-500">Login</Button>
-        </Link>
+      <div className="hidden items-center space-x-6 sm:flex">
+        <Link className="text-md font-semibold" to="/login">Login</Link>
+        <Button asChild className="text-md w-40 bg-blue-700 hover:bg-blue-500">
+          <Link className="inline-block" to="/profile">
+            Free Listing
+          </Link>
+        </Button>
       </div>
       <div className="sm:hidden">
-        <button onClick={() => setShowMenu(!showMenu)} className="text-gray-700 focus:outline-none">
-          {showMenu ? <Menu/>: <Menu />}
+        <button
+          onClick={() => setShowMenu(!showMenu)}
+          className="text-gray-700 focus:outline-none"
+        >
+          {showMenu ? <Menu /> : <Menu />}
         </button>
         {showMenu && (
-          <nav className="absolute right-0 top-16 bg-white shadow-md rounded-lg p-4 w-full mx-auto flex flex-col items-center">
-            <Link to="/" className="block w-full mb-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded-md text-center">
+          <nav className="absolute right-0 top-16 mx-auto flex w-full flex-col items-center rounded-lg bg-white p-4 shadow-md">
+            <Link
+              to="/"
+              className="mb-2 block w-full rounded-md p-2 text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            >
               Home
             </Link>
-            <Link to="/services" className="block w-full mb-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded-md text-center">
+            <Link
+              to="/services"
+              className="mb-2 block w-full rounded-md p-2 text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            >
               Services
             </Link>
-            <Link to="/contact" className="block w-full mb-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded-md text-center">
+            <Link
+              to="/contact"
+              className="mb-2 block w-full rounded-md p-2 text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            >
               Contact
             </Link>
-            <Link to="/create_listing" className="block w-full mb-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded-md text-center">
+            <Link
+              to="/profile"
+              className="mb-2 block w-full rounded-md p-2 text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            >
               Free Listing
             </Link>
-            <Link to="/auth" className="block w-full mb-2 text-gray-700 hover:bg-gray-100 hover:text-gray-900 p-2 rounded-md text-center">
+            <Link
+              to="/login"
+              className="mb-2 block w-full rounded-md p-2 text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+            >
               Login
             </Link>
           </nav>

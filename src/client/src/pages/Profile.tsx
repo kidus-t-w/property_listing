@@ -1,15 +1,24 @@
-import React from 'react';
-import Sidebar from '@/components/property_listing/SideBar';
-import Profile from '@/components/property_listing/Profile';
-import DeleteAccount from '@/components/profile_form/DeleteAccount';
+import React from "react";
+import Sidebar from "@/components/property_listing/SideBar";
+import { Outlet } from "react-router";
+import useAuth from "@/hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const MyProfile: React.FC = () => {
-  return (
-    <div className="flex flex-col lg:flex-row">
-      <Sidebar />
-      <Profile />
+  // 1. We check if the user is authenticated
+  // 2. If the user is not authenticated, then redirect them to the login, or signup page
+  // 3. Render the rest of the component
+  // const { isAuthenticated } = useAuth();
 
-    </div>
+  // if (!isAuthenticated) {
+  //   return <Navigate to="/login" />;
+  // }
+
+  return (
+    <main className="flex min-h-screen flex-col font-poppins lg:flex-row">
+      <Sidebar />
+      <Outlet />
+    </main>
   );
 };
 
