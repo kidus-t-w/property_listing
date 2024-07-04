@@ -13,12 +13,12 @@ const payload = {
     areaSize: z.number({ required_error: 'Property areaSize is required.' }),
     price: z.number({ required_error: 'Property price is required.' }),
     image: z.array(z.string({ required_error: 'Image should be a string.' })).min(3, { message: 'At least 3 images are required.' }),
-    userId: z.string({ required_error: 'User ID is required.' }),
     furnished: z.boolean({ message: 'Fu' }).optional(),
     bathrooms: z.number().optional(),
     bedrooms: z.number().optional(),
     garages: z.number().optional(),
-    floor: z.number().optional()
+    floors: z.number().optional(),
+    yearBuild: z.number().optional()
   })
 }
 

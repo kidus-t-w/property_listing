@@ -18,6 +18,7 @@ export interface PropertyInput {
   floor?: number
   price: number
   image: string[]
+  yearBuilt?: number
 }
 
 export interface PropertyDocument extends mongoose.Document, PropertyInput {
@@ -40,13 +41,14 @@ const propertySchema = new mongoose.Schema({
   city: { type: String, required: true },
   subCity: { type: String, required: true },
   furnished: { type: Boolean, allowNull: true },
-  bathrooms: { type: String, allowNull: true },
+  bathrooms: { type: Number, allowNull: true },
   garages: { type: Number, allowNull: true },
   areaSize: { type: Number, required: true },
   bedrooms: { type: Number, allowNull: true },
-  floor: { type: Number, allowNull: true },
+  floors: { type: Number, allowNull: true },
   price: { type: Number, required: true },
-  image: { type: [String], required: true }
+  image: { type: [String], required: true },
+  yearBuilt: {type: Number, allowNull: true}
 }, { timestamps: true });
 
 const PropertyModel = mongoose.model<PropertyDocument>('Property', propertySchema)

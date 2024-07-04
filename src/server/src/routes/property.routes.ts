@@ -11,11 +11,13 @@ import {
     createPropertyHandler,
     getPropertyHandler,
     updatePropertyHandler,
-    deletePropertyHandler
+    deletePropertyHandler,
+    getPropertiesHandler
 } from '../controllers/property.controller'
 
 const propertyRouter = Router()
 
+propertyRouter.get('/', getPropertiesHandler)
 propertyRouter.get('/:id', requireUser, validateResource(getPropertySchema), getPropertyHandler)
 propertyRouter.post('/', requireUser, validateResource(createPropertySchema), createPropertyHandler)
 propertyRouter.put('/:id', requireUser, validateResource(updatePropertySchema), updatePropertyHandler)

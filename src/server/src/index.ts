@@ -21,7 +21,7 @@ async function setup() {
   app.use("/api/auth", authRouter)
   app.use('/api/users', userRouter)
   app.use('/api/sessions', sessionRouter)
-  app.use('/api/properties', propertyRouter)
+  app.use('/api/property', propertyRouter)
   
   // TODO: Explain to me what this middleware does exactly
   app.use((err: any, req: Request, res:Response, next: NextFunction) => {

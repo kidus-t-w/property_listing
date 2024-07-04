@@ -7,7 +7,7 @@ const devUrl = 'mongodb+srv://leuela:yZlP7sNjqmqDw3cC@cluster0.e9knves.mongodb.n
 
 async function connect() {
     try {
-        await mongoose.connect(deploymentUrl)
+        await mongoose.connect(url)
     } catch(error) {
         console.log(error)
         process.exit(1)

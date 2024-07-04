@@ -6,13 +6,15 @@ import { reIssueAccessToken } from '../services/session.service'
 const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = _.get(req, 'headers.authorization')?.replace(/^Bearer\s/, '')
 
+  // req[headers].authorization
+  // Bearer <AuthToken>
   const refreshToken = _.get(req, 'headers.x-refresh') as string
 
   if (!accessToken) return next()
 
-  const { decoded, expired } = verifyJwt(accessToken)
-  if (decoded) {
-    res.locals.user = decoded
+  const { decoded: user, expired } = verifyJwt(accessToken)
+  if (user) {
+    res.locals.user = user
     return next()
   }
 

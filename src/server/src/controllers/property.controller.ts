@@ -12,6 +12,7 @@ import {
   findManyProperty,
   findProperty
 } from '../services/property.service'
+import { property } from 'lodash'
 
 export async function createPropertyHandler(req: Request<{}, {}, CreatePropertyInput['body']>, res: Response) {
   const userId = res.locals.user._id
@@ -51,8 +52,8 @@ export async function getPropertyHandler(req: Request<ReadPropertyInput['params'
 }
 
 export async function getPropertiesHandler(req: Request, res: Response) {
-  // TODO: Here is where i set query params
-  return await findManyProperty({})
+  const  properties = await findManyProperty({})
+  return res.status(200).json(properties)
 }
 
 export async function deletePropertyHandler(req: Request<DeletePropertyInput['params']>, res: Response) {

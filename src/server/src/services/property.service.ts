@@ -7,7 +7,7 @@ export const createProperty = async (input: PropertyInput) => {
 }
 
 export const findProperty = async (query: FilterQuery<PropertyDocument>, options: QueryOptions = { lean: true }) => {
-  return PropertyModel.findOne({ query }, {}, options)
+  return PropertyModel.findOne( query , {}, options)
 }
 
 export const findManyProperty = async (query: FilterQuery<PropertyDocument>, options: QueryOptions = { lean: true }) => {
