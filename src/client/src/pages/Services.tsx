@@ -3,7 +3,7 @@ import React from 'react';
 
 const ServicesPage: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-white p-6">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-6xl flex flex-col lg:flex-row">
         <div className="lg:w-2/3 p-8">
           <h1 className="text-2xl font-bold text-red-600 mb-4">Our Services</h1>

@@ -32,6 +32,7 @@ const ContactForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 bg-white shadow-md rounded-md">
+      <h2 className="text-2xl font-bold mb-4">Reach Out</h2>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">
           Name
@@ -80,35 +81,12 @@ const ContactForm: React.FC = () => {
           rows={4}
         />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="select">
-          Select
-        </label>
-        <select
-          name="select"
-          value={formData.select}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
-        >
-          <option value="">Select an option</option>
-          {/* Add options here */}
-        </select>
-      </div>
-      <div className="mb-4 flex items-center">
-        <input
-          type="checkbox"
-          name="terms"
-          className="mr-2 leading-tight"
-        />
-        <label className="text-gray-700 text-sm" htmlFor="terms">
-          By submitting this form I agree to <a href="#" className="text-red-500">Terms of Use</a>
-        </label>
-      </div>
-      <div className="flex space-x-4">
-        <button type="submit" className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:outline-none">
+      
+      <div className="flex space-x-4 justify-between">
+        <button type="submit" className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none">
           Send
         </button>
-        <button type="button" className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none">
+        <button type="button" className="w-full bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:outline-none">
           Call
         </button>
       </div>

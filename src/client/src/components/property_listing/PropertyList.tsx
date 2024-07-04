@@ -39,7 +39,7 @@ const PropertyList: React.FC = () => {
     <div className="flex-grow p-6 bg-white">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Properties</h1>
-        < Link to='/create_listing'><button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Create Listing</button></Link>
+        < Link to='/profile/create_listing'><button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Create Listing</button></Link>
         
       </div>
 
@@ -59,7 +59,7 @@ const PropertyList: React.FC = () => {
             <p className="text-gray-700">{property.description}</p>
           </div>
           <div className="flex flex-col space-y-2">
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Update</button>
+            <Link to='/profile/create_listing'><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Update</button></Link>
             <button onClick={() => handleDelete(property.id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Delete</button>
           </div>
         </div>

@@ -3,7 +3,7 @@ import React from 'react';
 
 const ContactUs: React.FC = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="bg-white rounded-lg shadow-lg overflow-hidden flex flex-col lg:flex-row w-full max-w-6xl p-8">
         <div className="lg:w-1/2 p-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Find Your Dream Home: Explore, Compare, and Secure Properties with Ease!r</h2>
@@ -44,7 +44,7 @@ const ContactUs: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="lg:w-1/2 p-8 bg-gray-50 rounded-lg">
+        <div className="lg:w-1/2 p-8 bg-white rounded-lg">
           <ContactUsForm/>
         </div>
       </div>

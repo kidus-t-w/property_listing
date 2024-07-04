@@ -13,7 +13,7 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <a href="#" className="text-2xl font-bold mt-8 text-gray-400 hover:text-white">
-                  Ehio Property
+                  Ethio Property
                 </a>
               </li>
               <li>

@@ -21,7 +21,7 @@ function PropertyDetail({}) {
 
   return (
     <div>
-      <div className="mx-auto flex items-center justify-between rounded-md bg-white p-4 shadow-md">
+      <div className="mx-auto flex items-center justify-between rounded-md bg-white p-4 shadow-md mb-6">
         <div>
           <h2 className="text-xl font-semibold text-gray-800">
             Summit CMC, 48 Bed Room Ground Plus Five Furnished Apartment
@@ -34,7 +34,7 @@ function PropertyDetail({}) {
             </span>
           </div>
         </div>
-        <div className="text-xl font-semibold text-red-500">
+        <div className="text-xl font-semibold text-blue-500">
           1,600,000 ETB /mo
         </div>
       </div>
@@ -123,8 +123,8 @@ function PropertyDetail({}) {
             </div>
           </div>
         </div>
-        <div className="border- mt-4 h-full w-[33.3%] min-w-[300px] bg-white p-4 drop-shadow-lg">
-          <h2 className="text-2xl font-bold">Reach Out</h2>
+        <div className="border- mt-4 h-full w-[33.3%] min-w-[300px] bg-white p-4 ">
+          
           <ContactForm />
         </div>
       </main>

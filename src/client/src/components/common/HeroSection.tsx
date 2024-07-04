@@ -1,53 +1,28 @@
 import card from "@/assets/img/front.png";
 import { FaSearch } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
 
 const HeroSection: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: any) => {
-
-    e.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    urlParams.set("searchTerm", searchTerm);
-    const searchQuery = urlParams.toString();
-    navigate(`/search?${searchQuery}`);
-
-  };
-
-  useEffect(() => {
-
-    const urlParams = new URLSearchParams(location.search);
-    const searchTermFromUrl = urlParams.get("searchTerm");
-    if (searchTermFromUrl) {
-      setSearchTerm(searchTermFromUrl);
-    }
-  }, [location.search]);
-
   return (
-    <div className="flex flex-col lg:flex-row items-center justify-between bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 py-12 px-6 lg:px-24 text-white mb-8">
-      <div className="lg:w-1/2">
-        <h1 className="text-3xl lg:text-5xl font-bold mb-4">Find Your Dream Home: Explore, Compare, and Secure Properties with Ease!</h1>
-        <p className="mb-6">
-        "Discover Your Perfect Home"
-        </p>
-        {/* Search bar */}
-        <form onSubmit={handleSubmit} className="mb-6 bg-slate-100 p-3 rounded-lg flex items-center justify-between text-black">
+    <div className="to-white-500 rounded-md mb-8 flex flex-col items-center justify-between bg-gradient-to-r from-blue-900 px-6 py-12 text-white lg:flex-row lg:px-24">
+      <div className="lg:w-1/2 space-y-9">
+        <div>
+          <h1 className="text-3xl lg:text-5xl">Find Your Dream Home! </h1>
+          <h2 className="text-gray-300">
+            Explore, Compare, and Secure Properties with Ease
+          </h2>
+        </div>
+
+        <form className="flex items-center justify-between rounded-lg bg-slate-100 p-3 text-black">
           <input
             type="text"
             placeholder="Search..."
-            className="bg-transparent focus:outline-none w-24 sm:w-64"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-
+            className="w-24 bg-transparent focus:outline-none sm:w-64"
           />
           <button>
-          <FaSearch className="text-slate-600" />
-
+            <FaSearch className="text-slate-600" />
           </button>
         </form>
+
         <div className="flex space-x-8">
           <div>
             <h2 className="text-2xl font-bold">200</h2>
@@ -63,10 +38,10 @@ const HeroSection: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="lg:w-1/2 justify-center lg:justify-end mt-8 lg:mt-0 hidden lg:flex">
+      <div className="mt-8 hidden justify-center lg:mt-0 lg:flex lg:w-1/2 lg:justify-end">
         <div className="relative">
           <img
-            className="rounded-lg shadow-lg w-32 h-32 lg:w-full lg:h-[350px]"
+            className="h-32 w-32 rounded-lg lg:h-[350px] lg:w-full"
             src={card}
             alt="Student 1"
           />

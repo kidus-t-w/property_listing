@@ -21,7 +21,6 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "../ui/textarea";
-import { redirect } from "react-router";
 
 const formSchema = z.object({
   title: z.string().min(4, "Property title is required"),

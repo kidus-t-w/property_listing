@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Menu } from "lucide-react";
+import { ChevronRight, CircleUserRound, Menu } from "lucide-react";
 import { isAuthenticated } from "@/lib/utils";
 
 export default function Header() {
@@ -27,7 +27,7 @@ export default function Header() {
       <div className="hidden items-center space-x-6 sm:flex">
         {isAuth && (
           <Link className="text-md font-semibold" to="/profile">
-            Profile
+            <CircleUserRound className="scale-150  rounded-full mr-8"/>
           </Link>
         )}
         {!isAuth && (
