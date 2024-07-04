@@ -68,7 +68,7 @@ export default function ChangePassword() {
           </div>
           {/* Buttons */}
           <div className="flex justify-end">
-            <Button type="submit" className="bg-red-500 text-white">
+            <Button type="submit" className="text-white bg-blue-800 hover:bg-blue-500">
               Updat Password
             </Button>
           </div>

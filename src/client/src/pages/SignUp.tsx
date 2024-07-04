@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link, redirect } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SignUpInput, signUpFormSchema } from "../schemas/auth.schema";
 import {
   Form,
@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 
 export default function SignUpPage() {
+  const navigate = useNavigate()
+
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpFormSchema),
     defaultValues: {
@@ -40,8 +42,7 @@ export default function SignUpPage() {
         },
         body: JSON.stringify(rest),
       });
-      return redirect("/login"); // Redirect to login page
-      console.log("User created succesfully");
+      return navigate('/login')
     } catch (error: any) {
       console.error(error);
     }

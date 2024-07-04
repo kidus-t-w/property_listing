@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,67 +19,71 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "../ui/textarea";
-import { redirect } from "react-router-dom";
+import { redirect } from "react-router";
 
 const formSchema = z.object({
-  propertyTitle: z.string().min(4, "Property title is required"),
-  content: z.string().min(1, "Description is required"),
-  type: z.string().min(1, "Type is required"),
-  price: z.string().min(1, "Price is required"),
-  bedrooms: z.string().min(1, "Number of bedrooms is required"),
-  bathrooms: z.string().min(1, "Number of bathrooms is required"),
-  areaSize: z.string().min(1, "Area size is required"),
-  landArea: z.string().min(1, "Land area is required"),
-  garages: z.string().min(1, "Number of garages is required"),
-  yearBuilt: z.string().min(1, "Year built is required"),
-  floor: z.string().min(1, "Floor number is required"),
-  propertyID: z.string().min(1, "Property ID is required"),
-  address: z.string().min(1, "Address is required"),
-  country: z.string().min(1, "Country is required"),
-  stateCounty: z.string().min(1, "State/County is required"),
-  city: z.string().min(1, "City is required"),
+  title: z.string().min(4, "Property title is required"),
+  description: z
+    .string().min(4, "Property title is required"),
+  type: z.string(),
+  price: z.string().min(1, "Property title is required"),
+  furnished: z.boolean().optional(),
+  bedrooms: z.string().min(1, "Property title is required"),
+  bathrooms: z.string().min(1, "Property title is required"),
+  areaSize: z.string().min(1, "Property title is required"),
+  garages: z.string(),
+  yearBuild: z.string().min(4, "Property title is required"),
+  floors: z.string(),
+  address: z.string().min(4, "Property title is required"),
+  country: z.string(),
+  subCity: z.string(),
+  // status: z.string().min(1, { message: "Property status is required." }),
+  city: z.string(),
+  // image: z
+  //   .array(z.string({ required_error: "Image should be a string." }))
+  //   .min(3, { message: "At least 3 images are required." }),
 });
 
 export default function CreateListing() {
-  const form = useForm({
+  
+  const navigate = useNavigate()
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      propertyTitle: "",
-      content: "",
+      title: "",
+      description: "",
+      // status: "",
       type: "",
-      status: "",
-      label: "",
       price: "",
+      // furnished: "",
       bedrooms: "",
       bathrooms: "",
       areaSize: "",
-      landArea: "",
       garages: "",
-      yearBuilt: "",
-      floor: "",
-      propertyID: "",
+      yearBuild: "",
+      floors: "",
       address: "",
       country: "",
-      stateCounty: "",
+      subCity: "",
       city: "",
-      area: "",
     },
   });
-
+  
   async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log("Form values:", values); // Log form values
 
 
     try {
-      const res = await fetch("http://localhost:1337/api/property/id", {
+      const res = await fetch("http://localhost:1337/api/property", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
       });
-      return redirect("/"); // Redirect to login page
+      navigate("/"); // Redirect to login page
       console.log("Property created succesfully");
     } catch (error: any) {
       console.error(error);
@@ -96,13 +101,13 @@ export default function CreateListing() {
         {/* Property Title */}
         <FormField
           control={form.control}
-          name="propertyTitle"
+          name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Property Title</FormLabel>
+              <FormLabel className="text-md">Property Title</FormLabel>
               <FormControl>
                 <Input
-                  className="w-full border p-2"
+                  className="w-full border p-2 focus-visible:ring-blue-700"
                   placeholder="Enter property title"
                   {...field}
                 />
@@ -115,13 +120,13 @@ export default function CreateListing() {
         {/* Description */}
         <FormField
           control={form.control}
-          name="content"
+          name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel className="text-md">Description</FormLabel>
               <FormControl>
                 <Textarea
-                  className="w-full border p-2"
+                  className="w-full border p-2 focus-visible:ring-blue-700"
                   placeholder="Enter property description"
                   {...field}
                 />
@@ -137,50 +142,73 @@ export default function CreateListing() {
           name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Type</FormLabel>
+              <FormLabel className="text-md">Type</FormLabel>
               <FormControl>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className=" w-full border p-2" >
-                      <SelectValue placeholder="Select Floor" />
-                    </SelectTrigger>
-                    <SelectContent >
-                      <SelectItem value="apartament">Apartament for sell</SelectItem>
-                      <SelectItem value="house">House for sell</SelectItem>
-                      <SelectItem value="land">Land for sell</SelectItem>
-                    </SelectContent>
-                  </Select>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-full border p-2 focus:ring-blue-700">
+                    <SelectValue placeholder="Select Type" />
+                  </SelectTrigger>
+                  <SelectContent className="font-poppins">
+                    <SelectItem value="apartament">Apartament</SelectItem>
+                    <SelectItem value="house">House</SelectItem>
+                    <SelectItem value="land">Land</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
         {/* Price */}
-        <FormField
-          control={form.control}
-          name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Price</FormLabel>
-              <FormControl>
-                <Input
-                  className="w-full border p-2"
-                  placeholder="Enter price in Ethiopian Birr"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem className="">
+                <FormLabel className="text-md">Price</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-full border p-2 focus-visible:ring-blue-700"
+                    placeholder="Enter price in Ethiopian Birr"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="furnished"
+            render={({ field }) => (
+              <FormItem className="flex items-end pb-2">
+                <div className="flex flex-row items-center justify-start gap-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel className="text-md">Furnished</FormLabel>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* Media */}
         <FormItem>
-          <FormLabel>Media</FormLabel>
+          <FormLabel className="text-md">Media</FormLabel>
           <FormControl>
             <div className="rounded-md border-2 border-dashed border-gray-300 p-6 text-center">
               <p className="mb-2">Drag and drop the gallery images here</p>
               <p className="mb-4">(Minimum size 1440x900)</p>
-              <Button className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600">
+              <Button className="rounded-md bg-blue-800 px-4 py-2 text-white hover:bg-blue-500">
                 Select and Upload
               </Button>
             </div>
@@ -195,10 +223,10 @@ export default function CreateListing() {
             name="bedrooms"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Bedrooms</FormLabel>
+                <FormLabel className="text-md">Bedrooms</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full border p-2"
+                    className="w-full border p-2 focus-visible:ring-blue-700"
                     placeholder="Enter number of bedrooms"
                     {...field}
                   />
@@ -213,10 +241,10 @@ export default function CreateListing() {
             name="bathrooms"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Bathrooms</FormLabel>
+                <FormLabel className="text-md">Bathrooms</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full border p-2"
+                    className="w-full border p-2 focus-visible:ring-blue-700"
                     placeholder="Enter number of bathrooms"
                     {...field}
                   />
@@ -231,29 +259,11 @@ export default function CreateListing() {
             name="areaSize"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Area Size</FormLabel>
+                <FormLabel className="text-md">Area Size</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full border p-2"
+                    className="w-full border p-2 focus-visible:ring-blue-700"
                     placeholder="Enter property area size"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="landArea"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Land Area</FormLabel>
-                <FormControl>
-                  <Input
-                    className="w-full border p-2"
-                    placeholder="Enter property land area"
                     {...field}
                   />
                 </FormControl>
@@ -267,10 +277,10 @@ export default function CreateListing() {
             name="garages"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Garages</FormLabel>
+                <FormLabel className="text-md">Garages</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full border p-2"
+                    className="w-full border p-2 focus-visible:ring-blue-700"
                     placeholder="Enter number of garages"
                     {...field}
                   />
@@ -282,13 +292,13 @@ export default function CreateListing() {
 
           <FormField
             control={form.control}
-            name="yearBuilt"
+            name="yearBuild"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Year Built</FormLabel>
+                <FormLabel className="text-md">Year Built</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full border p-2"
+                    className="w-full border p-2 focus-visible:ring-blue-700"
                     placeholder="Enter year built"
                     {...field}
                   />
@@ -300,39 +310,24 @@ export default function CreateListing() {
 
           <FormField
             control={form.control}
-            name="floor"
+            name="floors"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Floor</FormLabel>
+                <FormLabel className="text-md">Floors</FormLabel>
                 <FormControl>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className=" w-full border p-2">
-                      <SelectValue placeholder="Select Floor"/>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full border p-2 focus:ring-blue-700">
+                      <SelectValue placeholder="Select Floor" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="font-poppins">
                       <SelectItem value="1">1</SelectItem>
                       <SelectItem value="2">2</SelectItem>
                       <SelectItem value="3">3</SelectItem>
                     </SelectContent>
                   </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="propertyID"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Property ID</FormLabel>
-                <FormControl>
-                  <Input
-                    className="w-full border p-2"
-                    placeholder="Enter property ID"
-                    {...field}
-                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -347,10 +342,10 @@ export default function CreateListing() {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel className="text-md">Address</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-full border p-2"
+                    className="w-full border p-2 focus-visible:ring-blue-700"
                     placeholder="Enter property address"
                     {...field}
                   />
@@ -365,13 +360,16 @@ export default function CreateListing() {
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Country</FormLabel>
+                <FormLabel className="text-md">Country</FormLabel>
                 <FormControl>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className=" w-full border p-2">
-                      <SelectValue placeholder="Select Country"/>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full border p-2 focus:ring-blue-700">
+                      <SelectValue placeholder="Select Country" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="font-poppins">
                       <SelectItem value="Ethiopia">Ethiopia</SelectItem>
                     </SelectContent>
                   </Select>
@@ -383,16 +381,19 @@ export default function CreateListing() {
 
           <FormField
             control={form.control}
-            name="stateCounty"
+            name="subCity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Subcity</FormLabel>
+                <FormLabel className="text-md">Subcity</FormLabel>
                 <FormControl>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className=" w-full border p-2">
-                      <SelectValue placeholder="Select Subcity"/>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full border p-2 focus:ring-blue-700">
+                      <SelectValue placeholder="Select Subcity" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="font-poppins">
                       <SelectItem value="Addis Ketema">Addis Ketema</SelectItem>
                       <SelectItem value="Akaky Kaliti">Akaky Kaliti</SelectItem>
                       <SelectItem value="Arada">Arada</SelectItem>
@@ -411,13 +412,16 @@ export default function CreateListing() {
             name="city"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>City</FormLabel>
+                <FormLabel className="text-md">City</FormLabel>
                 <FormControl>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <SelectTrigger className=" w-full border p-2">
-                      <SelectValue placeholder="Select Subcity"/>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-full border p-2 focus:ring-blue-700">
+                      <SelectValue placeholder="Select City" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="font-poppins">
                       <SelectItem value="Addis Ababa">Addis Ababa</SelectItem>
                       <SelectItem value="Dire Dawa">Dire Dawa</SelectItem>
                       <SelectItem value="Mekelle">Mekelle</SelectItem>
@@ -434,7 +438,7 @@ export default function CreateListing() {
 
         <Button
           type="submit"
-          className="w-full rounded bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-700"
+          className="w-full rounded  px-4 py-2 font-bold text-white bg-blue-800 hover:bg-blue-500"
         >
           Submit
         </Button>

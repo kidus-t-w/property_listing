@@ -17,6 +17,7 @@ import LoginPage from "./pages/Login.tsx";
 import SignUpPage from "./pages/SignUp.tsx";
 import PropertyList from "./components/property_listing/PropertyList.tsx";
 import MyProfile from "./pages/Profile.tsx";
+import { AuthProvider } from "./contexts/auth.context.tsx";
 
 const router = createBrowserRouter([
   {
@@ -67,9 +68,9 @@ const router = createBrowserRouter([
       },
       {
         path: "create_listing",
-        element: <CreateListing/>
-      }
-    ]
+        element: <CreateListing />,
+      },
+    ],
   },
   {
     path: "/search",
@@ -86,5 +87,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />,
+  <AuthProvider>
+    <RouterProvider router={router} />,
+  </AuthProvider>,
 );

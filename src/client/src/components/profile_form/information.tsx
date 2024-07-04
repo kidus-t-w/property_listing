@@ -120,11 +120,8 @@ export default function Information() {
           />
 
           {/* Buttons */}
-          <div className="flex justify-between">
-            <Button type="button" className="bg-gray-500 text-white">
-              Cancel
-            </Button>
-            <Button type="submit" className="bg-red-500 text-white">
+          <div className="flex justify-end">
+            <Button type="submit" className="text-white bg-blue-800 hover:bg-blue-500">
               Update Information
             </Button>
           </div>

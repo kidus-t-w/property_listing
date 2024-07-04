@@ -1,17 +1,26 @@
 import { CircleUserRound, ClipboardPlus, List, LogOut } from "lucide-react";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
+import { Link, useNavigate } from "react-router-dom";
+// import { Button } from "../ui/button";
 
 const Sidebar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  const handleLogout = () => {
+    Cookies.remove("accessToken");
+    Cookies.remove("refreshToken");
+    navigate("/");
+  };
+
   return (
     <>
-      <div className="flex items-center justify-between bg-gray-900 p-4 text-white lg:hidden">
+      <div className="flex items-center justify-between bg-blue-700 p-4 text-white lg:hidden">
         <Link to="/" className="text-2xl font-bold">
           Ethio Property
         </Link>
@@ -41,33 +50,35 @@ const Sidebar: React.FC = () => {
           </svg>
         </button>
       </div>
-      <div className="min-w-80 bg-gray-900 text-white">
+      <div className="min-w-80 bg-blue-950 text-white">
         <Link to="/" className="hidden p-4 text-2xl font-bold lg:block">
           Ethio Property
         </Link>
         <nav>
           <ul className="flex flex-col items-start">
-            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+            <li className="w-full py-4 pl-4 hover:bg-gray-700">
               <Link to="/profile/listings" className="flex gap-2">
                 <List /> <p>Properties</p>
               </Link>
             </li>
-            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+            <li className="w-full py-4 pl-4 hover:bg-gray-700">
               <Link to="/profile/create_listing" className="flex gap-2">
                 <ClipboardPlus />
                 <p>Create Listing</p>
               </Link>
             </li>
-            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+            <li className="w-full py-4 pl-4 hover:bg-gray-700">
               <Link to="/profile" className="flex gap-2">
                 <CircleUserRound />
                 <p>My Profile</p>
               </Link>
             </li>
-            <li className="hover:bg-gray-700 w-full pl-4 py-4">
+            <li className="w-full py-4 pl-4 hover:bg-gray-700">
               <Link to="/" className="flex gap-2">
                 <LogOut />
-                <p>Log Out</p>
+                <button onClick={() => handleLogout()} type="button">
+                  Log Out
+                </button>
               </Link>
             </li>
           </ul>
