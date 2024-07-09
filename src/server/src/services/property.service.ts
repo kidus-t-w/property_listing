@@ -32,5 +32,5 @@ export const findAndUpdateProperty = async (
 };
 
 export const deleteProperty = async (query: FilterQuery<PropertyDocument>) => {
-  return PropertyModel.deleteOne(query);
+  return await PropertyModel.deleteOne(query);
 };

@@ -7,7 +7,7 @@ import ProfileForm from "./components/property_listing/Profile.tsx";
 
 import Services from "./pages/Services.tsx";
 import PropertyDetail from "@/pages/PropertyDetail.tsx";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import PropertyListing from "./pages/PropertyListing.tsx";
 import CreateListing from "./pages/CreateListing.tsx";
 import Contact from "./pages/Contact.tsx";
@@ -15,7 +15,7 @@ import AuthPage from "./pages/Auth.tsx";
 import Search from "./pages/Search.tsx";
 import LoginPage from "./pages/Login.tsx";
 import SignUpPage from "./pages/SignUp.tsx";
-import PropertyList from "./components/property_listing/PropertyList.tsx";
+import UpdatedListing from "./components/property_listing/PropertyUpdate.tsx";
 import MyProfile from "./pages/Profile.tsx";
 import { AuthProvider } from "./contexts/auth.context.tsx";
 
@@ -69,6 +69,10 @@ const router = createBrowserRouter([
       {
         path: "create_listing",
         element: <CreateListing />,
+      },
+      {
+        path: "update_listing",
+        element: <UpdatedListing />,
       },
     ],
   },

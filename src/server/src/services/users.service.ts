@@ -51,8 +51,8 @@ export async function validatePassword({
 }
 
 export async function getUserProperties(
-  query: FilterQuery<PropertyDocument>,
-  options: QueryOptions = {lean: true}
+  userId: string,
+  options: QueryOptions = { lean: true }
 ) {
-  return await PropertyModel.find(query, {}, options);
+  return await PropertyModel.find({ userId }, {}, options);
 }

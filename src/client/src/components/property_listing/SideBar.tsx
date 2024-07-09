@@ -83,9 +83,6 @@ const Sidebar: React.FC = () => {
             </li>
           </ul>
         </nav>
-        <div className="p-4 hover:bg-gray-700">
-          <a href="#" className="flex gap-2"></a>
-        </div>
       </div>
     </>
   );

@@ -93,17 +93,37 @@ export async function getUsersPropertiesHandler(
   res: Response
 ) {
   const userId = res.locals.user._id;
-  return res.sendStatus(200)
-  const { limit: currentLimit, page: currentPage } = req.query;
-
-  const page = Number(currentPage) || 1;
-  const limit = Number(currentLimit) || 10;
-
-  const options: QueryOptions = {
-    lean: true,
-    limit,
-    skip: (page - 1) * limit,
-  };
-  const properties = await getUserProperties({  }, options);
+  const properties = await getUserProperties(userId);
   return res.status(200).json(properties);
+}
+
+export async function getCurrentUserHandler(req: Request, res: Response) {
+  const user = res.locals.user;
+
+  if (!user) return res.status(404).json({ error: "User not found." });
+  return res.status(200).json(_.omit(user, ["password", "__v"]));
+}
+
+export async function updateCurrentUserHandler(
+  req: Request<{}, {}, UpdateUserInput["body"]>,
+  res: Response
+) {
+  const userId = res.locals.user._id;
+  const update = req.body;
+
+  const updatedUser = await findAndUpdateUser({ _id: userId }, update, {
+    new: true,
+  });
+  if (!updatedUser)
+    return res.status(500).json({ error: "Unable to update user." });
+  return res
+    .status(200)
+    .json(
+      _.omit(updatedUser.toJSON(), [
+        "createdAt",
+        "updatedAt",
+        "__v",
+        "password",
+      ])
+    );
 }

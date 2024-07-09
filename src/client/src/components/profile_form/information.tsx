@@ -11,20 +11,60 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const profileSchema = z.object({
-  username: z.string(),
-  email: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
-  phoneNumber: z.string(),
+  userName: z.string().nonempty("Username is required"),
+  email: z.string().email("Invalid email address").nonempty("Email is required"),
+  firstName: z.string().nonempty("First name is required"),
+  lastName: z.string().nonempty("Last name is required"),
+  phoneNumber: z.string().nonempty("Phone number is required"),
 });
 
+interface User {
+  _id: string;
+  userName: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+}
+
 export default function Information() {
+  const token = Cookies.get("accessToken");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [user, setUser] = useState<User | null>(null);
+
+  if (!token) {
+    console.error("Token not found in cookies");
+    return null;
+  }
+
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:1337/api/users/me", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setUser(response.data);
+        setLoading(false);
+      })
+      .catch((error: any) => {
+        console.error(error.message);
+        setLoading(false);
+      });
+  }, [token]);
+
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      username: "",
+      userName: "",
       email: "",
       firstName: "",
       lastName: "",
@@ -32,21 +72,54 @@ export default function Information() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof profileSchema>) {
-    console.log(values);
+  useEffect(() => {
+    if (user) {
+      form.reset(user);
+    }
+  }, [user, form]);
+
+  const onSubmit = async (values: z.infer<typeof profileSchema>) => {
+    try {
+      if (!user) {
+        throw new Error("User data is not available");
+      }
+      console.log("Sending update payload:", values); // Log the payload being sent
+      console.log("User ID:", user._id);
+
+      const response = await fetch(`http://localhost:1337/api/users/${user._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user information");
+      }
+
+      const updatedUser = await response.json();
+      setUser(updatedUser);
+    } catch (error: any) {
+      console.error(error.message);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
   }
 
   return (
-    <div className="w-full mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6">Information</h2>
+    <div className="mx-auto mt-10 w-full rounded-lg bg-white p-6 shadow-md">
+      <h2 className="mb-6 text-2xl font-semibold">Information</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
           {/* User name and Email */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <FormField
               control={form.control}
-              name="username"
+              name="userName"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Username</FormLabel>
@@ -74,7 +147,7 @@ export default function Information() {
           </div>
 
           {/* First Name and Last Name */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <FormField
               control={form.control}
               name="firstName"
@@ -116,12 +189,15 @@ export default function Information() {
                 </FormControl>
                 <FormMessage />
               </FormItem>
-            )} 
+            )}
           />
 
           {/* Buttons */}
           <div className="flex justify-end">
-            <Button type="submit" className="text-white bg-blue-800 hover:bg-blue-500">
+            <Button
+              type="submit"
+              className="w-[180px] bg-blue-800 text-white hover:bg-blue-500"
+            >
               Update Information
             </Button>
           </div>

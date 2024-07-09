@@ -2,6 +2,7 @@ import { z } from "zod";
 
 const payload = {
   body: z.object({
+    userName: z.string().optional(),
     firstName: z.string({ message: "first name must be a string." }).optional(),
     lastName: z.string({ message: "last name must be a string." }).optional(),
     email: z
@@ -35,6 +36,7 @@ export const createUserSchema = z.object({
 
 export const updateUserSchema = z.object({
   body: z.object({
+    userName: z.string().optional(),
     firstName: z.string().optional(),
     lastName: z.string().optional(),
     phoneNumber: z.string().optional(),

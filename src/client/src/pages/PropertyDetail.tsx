@@ -1,41 +1,41 @@
 import AddisGlobal from "@/assets/img/propertyImage.jpeg";
 import ContactForm from "@/components/common/Form";
+import { useLocation, useNavigate } from "react-router";
 
 function PropertyDetail({}) {
-  const listing = {
-    _id: "1",
-    name: "Beautiful Family Home",
-    imageUrls: [""],
-    address: "123 Main St, Springfield, IL",
-    description:
-      "A beautiful family home with a large backyard, perfect for children and pets. Recently renovated with modern amenities.",
-    offer: true,
-    discountPrice: 250000,
-    regularPrice: 300000,
-    type: "sale",
-    bedrooms: 3,
-    bathrooms: 2,
-  };
+  // const navigate = useNavigate();
+  const location = useLocation();
 
-  console.log(listing);
+  const property = location.state.property;
+  // console.log("Property:", property);
+
+  // const property = {
+  //   _id: "1",
+  //   title: property.title,
+  //   imageUrls: [""],
+  //   address: "123 Main St, Springfield, IL",
+  //   description:
+  //     property.description,
+  //   offer: true,
+  //   discountPrice: 250000,
+  //   regularPrice: 300000,
+  //   type: "sale",
+  //   bedrooms: 3,
+  //   bathrooms: 2,
+  // };
+
+  console.log(property);
 
   return (
     <div>
-      <div className="mx-auto flex items-center justify-between rounded-md bg-white p-4 shadow-md mb-6">
+      <div className="mx-auto mb-6 flex items-center justify-between rounded-md bg-white p-4 shadow-md">
         <div>
           <h2 className="text-xl font-semibold text-gray-800">
-            Summit CMC, 48 Bed Room Ground Plus Five Furnished Apartment
-            Building For Rent, Addis Ababa
+            {property.title}
           </h2>
-          <div className="mt-2 text-sm text-gray-500">
-            <span>
-              📍 Goro, Summit - Goro road, Yeka Bole Bota, Addis Ababa, 14920,
-              Ethiopia
-            </span>
-          </div>
         </div>
         <div className="text-xl font-semibold text-blue-500">
-          1,600,000 ETB /mo
+          {property.price} ETB /mo
         </div>
       </div>
 
@@ -60,14 +60,13 @@ function PropertyDetail({}) {
           <div className="border- m-4 bg-white p-8 drop-shadow-lg">
             <h2 className="mb-4 text-2xl font-bold">Description</h2>
             <hr />
-            <p className="mt-4 p-4">{listing.description}</p>
+            <p className="mt-4 p-4">{property.description}</p>
           </div>
           <div className="border- m-4 bg-white p-8 drop-shadow-lg">
             <h2 className="mb-4 text-2xl font-bold">Detail</h2>
             <hr />
             <div className="grid grid-cols-2 p-4 md:grid-cols-4">
               <ul>
-                <li>Property ID:</li>
                 <li>Price:</li>
                 <li>Property Size:</li>
                 <li>Bedrooms:</li>
@@ -75,28 +74,25 @@ function PropertyDetail({}) {
                 <li>Garage:</li>
               </ul>
               <ul>
-                <li>RE4904</li>
-                <li>114,000 ETB</li>
-                <li>140 m2</li>
-                <li>3</li>
-                <li>3</li>
-                <li>1</li>
+                <li>{property.price} ETB</li>
+                <li>{property.areaSize} m2</li>
+                <li>{property.bedrooms}</li>
+                <li>{property.bathrooms}</li>
+                <li>{property.garages}</li>
               </ul>
               <ul>
                 <li>Year Built:</li>
                 <li>Property Type:</li>
-                <li>Property Size:</li>
                 <li>Property Status:</li>
                 <li>Floor:</li>
                 <li>Furnished:</li>
               </ul>
               <ul>
-                <li>2016</li>
-                <li>Apartment for rent</li>
-                <li>140 m2</li>
-                <li>For sell</li>
-                <li>4</li>
-                <li>no</li>
+                <li>{property.yearBuild}EC</li>
+                <li>{property.type} for sell</li>
+                <li>{property.status}</li>
+                <li>{property.floors}</li>
+                <li>{property.furnished ? <div>Yes</div> : <div>No</div>}</li>
               </ul>
             </div>
           </div>
@@ -109,22 +105,21 @@ function PropertyDetail({}) {
                 <li>City:</li>
               </ul>
               <ul>
-                <li>Bole</li>
-                <li>Addis Ababa</li>
+                <li>{property.address}</li>
+                <li>{property.city}</li>
               </ul>
               <ul>
-                <li>Area:</li>
+                <li>Sub City:</li>
                 <li>Country:</li>
               </ul>
               <ul>
-                <li>Wollo Sefer</li>
-                <li>Ethiopia</li>
+                <li>{property.subCity}</li>
+                <li>{property.country}</li>
               </ul>
             </div>
           </div>
         </div>
-        <div className="border- mt-4 h-full w-[33.3%] min-w-[300px] bg-white p-4 ">
-          
+        <div className="border- mt-4 h-full w-[33.3%] min-w-[300px] bg-white p-4">
           <ContactForm />
         </div>
       </main>

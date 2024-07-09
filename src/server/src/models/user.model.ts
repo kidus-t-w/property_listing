@@ -2,7 +2,8 @@ import config from 'config'
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
 
-export interface UserInput {
+export interface UserInput { 
+  userName?: string | undefined;
   firstName?: string | undefined;
   lastName?: string | undefined;
   password: string;
@@ -18,6 +19,7 @@ export interface UserDocument extends UserInput, mongoose.Document {
 
 const userSchema = new mongoose.Schema(
   {
+    userName: { type: String, require: false, nullable: true },
     firstName: { type: String, require: false, nullable: true },
     lastName: { type: String, require: false, nullable: true },
     email: { type: String, require: true, unique: true },

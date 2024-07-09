@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 // components
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Property } from "@/types/property.types";
 import Card from "../common/Card";
@@ -24,6 +24,11 @@ export default function PropertySection({
   const [loading, setLoading] = React.useState<boolean>(false);
   const [properties, setProperties] = React.useState<Property[]>([]);
   const [error, setError] = React.useState<string | null>(null);
+  const navigate = useNavigate();
+  
+  const handleClick = (property: Property) => {
+    navigate("/property_detail", { state: { property } });
+  };
 
   React.useEffect(() => {
     setLoading(true);
@@ -47,13 +52,12 @@ export default function PropertySection({
       .then((data) => {
         const properties = data.data;
         setProperties(properties);
-        setLoading(false)
+        setLoading(false);
       })
       .catch((e: any) => {
         setError(e.message);
-        setLoading(false)
+        setLoading(false);
       });
-
   }, [setLoading]);
 
   if (loading) {
@@ -86,7 +90,9 @@ export default function PropertySection({
 
       <div className="grid grid-cols-1 place-items-center gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {properties.map((property) => (
-          <Card property={property} />
+          <button onClick={() => handleClick(property)}>
+            <Card property={property} />
+          </button>
         ))}
       </div>
     </div>

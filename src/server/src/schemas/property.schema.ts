@@ -17,7 +17,7 @@ const payload = {
     image: z
       .array(z.string({ required_error: "Image should be a string." }))
       .min(3, { message: "At least 3 images are required." }),
-    furnished: z.boolean({ message: "Fu" }).optional(),
+    furnished: z.boolean({ message: "Furnished" }).optional(),
     bathrooms: z.number().optional(),
     bedrooms: z.number().optional(),
     garages: z.number().optional(),

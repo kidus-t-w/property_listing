@@ -22,6 +22,9 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "../ui/textarea";
 import Cookies from "js-cookie";
+// import { totalmem } from "os";
+
+import { useLocation } from "react-router-dom";
 
 const formSchema = z.object({
   title: z.string().min(4, "Property title is required"),
@@ -46,28 +49,35 @@ const formSchema = z.object({
     .default(["image1.jpg", "image2.jpg", "image3.jpg"]),
 });
 
-export default function CreateListing() {
+export default function UpdateListing() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const property = location.state.property;
+  console.log("Property:", property);
+
+  // Check if property is null or undefined
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
-      description: "",
-      status: "",
-      type: "",
-      // price: 0,
-      // furnished: "",
-      // bedrooms: 0,
-      // bathrooms: 0,
-      // areaSize: 0,
-      // garages: 0,
-      // yearBuild: 0,
-      // floors: 0,
-      address: "",
-      country: "",
-      subCity: "",
-      city: "",
-      image: ["image1.jpg", "image2.jpg", "image3.jpg"],
+      title: property.title || "",
+      description: property.description || "",
+      status: property.status || "",
+      type: property.type || "",
+      price: property.price ? property.price.toString() : "",
+      furnished: property.furnished || false,
+      bedrooms: property.bedrooms ? property.bedrooms.toString() : "",
+      bathrooms: property.bathrooms ? property.bathrooms.toString() : "",
+      areaSize: property.areaSize ? property.areaSize.toString() : "",
+      garages: property.garages ? property.garages.toString() : "",
+      yearBuild: property.yearBuild ? property.yearBuild.toString() : "",
+      floors: property.floors.toString() ? property.floors.toString() : "",
+      address: property.address || "",
+      country: property.country || "",
+      subCity: property.subCity || "",
+      city: property.city || "",
+      image: property.image || ["image1.jpg", "image2.jpg", "image3.jpg"],
     },
   });
 
@@ -81,14 +91,17 @@ export default function CreateListing() {
     }
 
     try {
-      const res = await fetch("http://localhost:1337/api/property", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const res = await fetch(
+        `http://localhost:1337/api/property/${property._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(values),
         },
-        body: JSON.stringify(values),
-      });
+      );
 
       if (!res.ok) {
         const errorMessage = await res.text();
@@ -108,7 +121,7 @@ export default function CreateListing() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full space-y-8 rounded-md bg-white p-4 px-4 shadow-md md:px-12"
       >
-        <h2 className="mb-4 text-3xl font-bold">Create Listing</h2>
+        <h2 className="mb-4 text-3xl font-bold">Update Listing</h2>
 
         {/* Property Title */}
         <FormField
@@ -472,7 +485,7 @@ export default function CreateListing() {
           type="submit"
           className="w-full rounded bg-blue-800 px-4 py-2 font-bold text-white hover:bg-blue-500"
         >
-          Submit
+          Update
         </Button>
       </form>
     </Form>

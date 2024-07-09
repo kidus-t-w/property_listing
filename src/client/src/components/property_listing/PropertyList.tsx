@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
-import PlaceHolder from '@/assets/img/propertyImage.jpeg'
-import { Link } from 'react-router-dom';
-
+import React, { useEffect, useState } from "react";
+import PlaceHolder from "@/assets/img/propertyImage.jpeg";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { Skeleton } from "../ui/skeleton";
+import PropertySkeleton from "./SkeletonCard";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 interface Property {
   id: number;
   title: string;
@@ -10,57 +14,130 @@ interface Property {
 }
 
 const PropertyList: React.FC = () => {
-  const [properties, setProperties] = useState<Property[]>([
-    {
-      id: 1,
-      title: 'Wolo Sefer Bole, 3 Bedrooms Apartment',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-      image: PlaceHolder, // Placeholder image path
-    },
-    {
-      id: 2,
-      title: 'Wolo Sefer Bole, 3 Bedrooms Apartment',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-      image: PlaceHolder, // Placeholder image path
-    },
-    {
-      id: 3,
-      title: 'Wolo Sefer Bole, 3 Bedrooms Apartment',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit...',
-      image: PlaceHolder, // Placeholder image path
-    },
-  ]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const token = Cookies.get("accessToken");
+  const navigate = useNavigate();
 
-  const handleDelete = (id: number) => {
-    setProperties(properties.filter(property => property.id !== id));
+  if (!token) {
+    console.error("Token not found in cookies");
+    return null;
+  }
+
+  useEffect(() => {
+    setLoading(true);
+
+    axios
+      .get<Property[]>(`http://localhost:1337/api/users/properties`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((data) => {
+        const properties = data.data;
+        setProperties(properties);
+        setLoading(false);
+      })
+      .catch((e: any) => {
+        setError(e.message);
+        setLoading(false);
+      });
+  }, [setLoading]);
+
+  const handleUpdate = (property: Property) => {
+    navigate("/profile/update_listing", { state: { property } });
+  };
+  const handleClick = (property: Property) => {
+    navigate("/property_detail", { state: { property } });
   };
 
+  const handleDelete = (id: number) => {
+    console.log("Deleting property with id:", id); // For debugging
+
+    axios
+      .delete(`http://localhost:1337/api/property/${id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(() => {
+        window.location.reload();
+        console.log("Deleted successfully");
+      })
+      .catch((e: any) => {
+        console.error("Error deleting property:", e);
+        alert("Failed to delete property");
+      });
+  };
+
+  if (loading) {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
+          <Skeleton className="h-10 w-40" />
+          <Skeleton className="h-10 w-28" />
+        </div>
+
+        <div className="grid grid-cols-1 place-items-center gap-y-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {Array.from({ length: 4 }, (_, i) => (
+            <PropertySkeleton key={i} />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex-grow p-6 bg-white">
-      <div className="flex justify-between items-center mb-6">
+    <div className="flex-grow bg-white p-6">
+      <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Properties</h1>
-        < Link to='/profile/create_listing'><button className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Create Listing</button></Link>
-        
+        <Link to="/profile/create_listing">
+          <button className="rounded-md bg-blue-700 px-4 py-2 text-white hover:bg-blue-200">
+            Create Listing
+          </button>
+        </Link>
       </div>
 
       <div className="mb-6">
         <input
           type="text"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-red-500"
+          className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:outline-none"
           placeholder="Search"
         />
       </div>
 
       {properties.map((property) => (
-        <div key={property.id} className="flex flex-col md:flex-row items-center mb-6 bg-white p-4 shadow-md rounded-md">
-          <img src={property.image} alt={property.title} className="w-full md:w-40 h-40 object-cover mb-4 md:mb-0 md:mr-4" />
-          <div className="flex-grow mb-4 md:mb-0">
-            <h2 className="text-xl font-semibold mb-2">{property.title}</h2>
+        <div
+          key={property._id}
+          className="mb-6 flex flex-col items-center rounded-md bg-white p-4 shadow-md md:flex-row"
+        >
+          <button onClick={() => handleClick(property)}>
+          <img
+            src={PlaceHolder}
+            alt={property.title}
+            className="mb-4 h-40 w-full rounded-lg object-cover md:mb-0 md:mr-4 md:w-40 transition-scale duration-300 hover:scale-105"
+          />
+          </button>
+          <div className="mb-4 flex-grow pl-6 md:mb-0">
+            <h2 className="mb-2 text-xl font-semibold">{property.title}</h2>
             <p className="text-gray-700">{property.description}</p>
           </div>
           <div className="flex flex-col space-y-2">
-            <Link to='/profile/create_listing'><button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Update</button></Link>
-            <button onClick={() => handleDelete(property.id)} className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600">Delete</button>
+              <button
+                onClick={() => handleUpdate(property)}
+                className="rounded-md bg-blue-700 px-4 py-2 text-white hover:bg-blue-600"
+              >
+                Update
+              </button>
+            <button
+              onClick={() => handleDelete(property._id)}
+              className="rounded-md bg-red-500 px-4 py-2 text-white hover:bg-red-600"
+            >
+              Delete
+            </button>
           </div>
         </div>
       ))}
