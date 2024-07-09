@@ -1,97 +1,69 @@
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
+import { useRef } from 'react';
+import emailjs from '@emailjs/browser';
 
-const profileSchema = z.object({
-  name: z.string(),
-  email: z.string(),
-  message: z.string(),
-});
+export const ContactUsForm = () => {
+  const form:any = useRef();
 
-export default function ContactUsForm() {
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      message: "",
-    },
-  });
+  const sendEmail = (e: any) => {
+    e.preventDefault();
 
-  function onSubmit(values: z.infer<typeof profileSchema>) {
-    console.log(values);
-  }
+    emailjs
+      .sendForm('service_rzfbk92', 'template_qmvy1jb', form.current, {
+        publicKey: 'Z2jdTPo7WZkJLZpND',
+      })
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        },
+      );
+      e.target.reset()
+  };
 
   return (
-    <div className="w-full mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-semibold mb-6">We Like To Hear From You</h2>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-
-          {/* User name and Email */}
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter you name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-          control={form.control}
-          name="message"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Your message</FormLabel>
-              <FormControl>
-                <Textarea
-                  className="w-full border p-2"
-                  placeholder="Enter property description"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+    <div className="flex justify-center items-center min-h-full ">
+      <form ref={form} onSubmit={sendEmail} className="bg-white p-8 rounded shadow-md w-96">
+        <h2 className="text-xl font-bold mb-4">We Like To Hear From You</h2>
+        
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
+          <input 
+            type="text" 
+            name="user_name" 
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+            placeholder="Enter your name"
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Email</label>
+          <input 
+            type="email" 
+            name="user_email" 
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+            placeholder="Enter your email"
+          />
+        </div>
+        
+        <div className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">Your message</label>
+          <textarea 
+            name="message" 
+            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-600"
+            placeholder="Enter property description"
+          />
+        </div>
+        
+        <input 
+          type="submit" 
+          value="Submit" 
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-200"
         />
-          {/* Buttons */}
-          <div className="flex justify-end">
-            <Button type="submit" className="bg-blue-700 text-white">
-              Submit
-            </Button>
-          </div>
-        </form>
-      </Form>
+      </form>
     </div>
   );
-}
+};
+
+export default ContactUsForm;

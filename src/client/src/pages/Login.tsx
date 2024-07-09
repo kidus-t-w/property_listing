@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { isAuthenticated } from "@/lib/utils";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react"; // Icon library
 
 export interface LoginResponse {
   accessToken: string;
@@ -26,6 +28,8 @@ export interface LoginResponse {
 }
 
 export default function LoginPage() {
+  const [showPassword, setShowPassword] = useState(false);
+
   const form = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -33,19 +37,12 @@ export default function LoginPage() {
       password: "",
     },
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const isAuth = isAuthenticated()
+  const isAuth = isAuthenticated();
   if (isAuth) {
-    return <Navigate to="/"/> 
+    return <Navigate to="/" />;
   }
-  // const authContext = useAuth();
-
-  // if (!authContext) {
-  //   throw new Error("Login page must be used within an AuthProvider.");
-  // }
-
-  // const { authTokens, lrgin } = authContext;
 
   const onSubmit = async (values: LoginInput) => {
     // destructure the values from the input
@@ -59,7 +56,7 @@ export default function LoginPage() {
           email,
           password,
         },
-        { headers: { "Content-Type": "application/json" } },
+        { headers: { "Content-Type": "application/json" } }
       );
 
       // NOTE: no need to parse the data to json because we are using axios
@@ -67,7 +64,7 @@ export default function LoginPage() {
 
       Cookies.set("accessToken", accessToken);
       Cookies.set("refreshToken", refreshToken);
-      navigate("/") 
+      navigate("/");
     } catch (e: any) {
       const error = e as AxiosError;
 
@@ -86,11 +83,11 @@ export default function LoginPage() {
 
   return (
     <main className="relative flex h-screen flex-col items-center justify-center gap-4 font-poppins">
-      <h1 className="mb-5 text-5xl font-semibold">Ethio-Property</h1>
+      <h1 className="mb-5 text-3xl font-semibold sm:text-5xl">Ethio-Property</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="min-w-[600px] space-y-4"
+          className="w-full max-w-md space-y-4 sm:max-w-lg"
         >
           <FormField
             control={form.control}
@@ -116,11 +113,25 @@ export default function LoginPage() {
               <FormItem>
                 <FormLabel className="text-md">Password</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Enter your password"
-                    className="h-12 focus-visible:ring-blue-700"
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Enter your password"
+                      className="h-12 pr-10 focus-visible:ring-blue-700"
+                      {...field}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 flex items-center px-2 focus:outline-none"
+                    >
+                      {showPassword ? (
+                        <EyeOff className="h-5 w-5 text-gray-700" />
+                      ) : (
+                        <Eye className="h-5 w-5 text-gray-700" />
+                      )}
+                    </button>
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -131,7 +142,7 @@ export default function LoginPage() {
           </Button>
         </form>
       </Form>
-      <Separator className="mt-2 max-w-[600px]" />
+      <Separator className="mt-2 w-full max-w-md sm:max-w-lg" />
       <div className="text-md">
         <p>
           Don't have an account?{" "}
@@ -141,7 +152,7 @@ export default function LoginPage() {
         </p>
       </div>
       <Link to="/">
-        <h1 className="absolute left-0 top-0 p-8 text-3xl font-bold">
+        <h1 className="absolute left-0 top-0 p-4 text-xl font-bold sm:p-8 sm:text-3xl">
           Ethio Property
         </h1>
       </Link>

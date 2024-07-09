@@ -1,4 +1,5 @@
 import AddisGlobal from "@/assets/img/propertyImage.jpeg";
+import ContactUsForm from "@/components/common/ContactUsForm";
 import ContactForm from "@/components/common/Form";
 import { useLocation, useNavigate } from "react-router";
 
@@ -41,22 +42,29 @@ function PropertyDetail({}) {
 
       <main className="box-border flex flex-wrap justify-center">
         <div className="w-[66.6%]">
-          <div className="border- m-4 bg-white p-8 drop-shadow-lg">
-            <div className="h-[500px]">
-              <img className="mx-auto h-full" src={AddisGlobal} alt="" />
-            </div>
-            <div className="m-4 box-border grid grid-cols-3">
-              <div className="m-2">
-                <img src={AddisGlobal} alt="" />
+          <div className="w-full ">
+            <div className="m-4 border bg-white p-4 drop-shadow-lg lg:p-8">
+              <div className="h-[300px] lg:h-[500px]">
+                <img
+                  className="mx-auto h-full object-cover"
+                  src={property.image[1]}
+                  alt=""
+                />
               </div>
-              <div className="m-2">
-                <img src={AddisGlobal} alt="" />
-              </div>
-              <div className="m-2">
-                <img src={AddisGlobal} alt="" />
+              <div className="m-4 box-border grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="m-2">
+                  <img src={property.image[1]} alt="" />
+                </div>
+                <div className="m-2">
+                  <img src={property.image[1]} alt="" />
+                </div>
+                <div className="m-2">
+                  <img src={property.image[1]} alt="" />
+                </div>
               </div>
             </div>
           </div>
+
           <div className="border- m-4 bg-white p-8 drop-shadow-lg">
             <h2 className="mb-4 text-2xl font-bold">Description</h2>
             <hr />
@@ -119,8 +127,8 @@ function PropertyDetail({}) {
             </div>
           </div>
         </div>
-        <div className="border- mt-4 h-full w-[33.3%] min-w-[300px] bg-white p-4">
-          <ContactForm />
+        <div className="border- mt-4 h-full w-[33.3%] min-w-[400px] bg-white p-4">
+          <ContactUsForm />
         </div>
       </main>
     </div>

@@ -67,7 +67,7 @@ export default function CreateListing() {
       country: "",
       subCity: "",
       city: "",
-      image: ["image1.jpg", "image2.jpg", "image3.jpg"],
+      image: ["https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", "https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"],
     },
   });
 
@@ -116,7 +116,7 @@ export default function CreateListing() {
           name="title"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Property Title</FormLabel>
+              <FormLabel className="text-md">Property Title *</FormLabel>
               <FormControl>
                 <Input
                   className="w-full border p-2 focus-visible:ring-blue-700"
@@ -135,7 +135,7 @@ export default function CreateListing() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-md">Description</FormLabel>
+              <FormLabel className="text-md">Description *</FormLabel>
               <FormControl>
                 <Textarea
                   className="w-full border p-2 focus-visible:ring-blue-700"
@@ -154,7 +154,7 @@ export default function CreateListing() {
             name="type"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Type</FormLabel>
+                <FormLabel className="text-md">Type *</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -180,7 +180,7 @@ export default function CreateListing() {
             name="status"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Status</FormLabel>
+                <FormLabel className="text-md">Status *</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -208,7 +208,7 @@ export default function CreateListing() {
             name="price"
             render={({ field }) => (
               <FormItem className="">
-                <FormLabel className="text-md">Price</FormLabel>
+                <FormLabel className="text-md">Price *</FormLabel>
                 <FormControl>
                   <Input
                     type="number"
@@ -263,7 +263,7 @@ export default function CreateListing() {
             name="bedrooms"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Bedrooms</FormLabel>
+                <FormLabel className="text-md">Bedrooms *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -281,7 +281,7 @@ export default function CreateListing() {
             name="bathrooms"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Bathrooms</FormLabel>
+                <FormLabel className="text-md">Bathrooms *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -299,7 +299,7 @@ export default function CreateListing() {
             name="areaSize"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Area Size</FormLabel>
+                <FormLabel className="text-md">Area Size *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -317,7 +317,7 @@ export default function CreateListing() {
             name="garages"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Garages</FormLabel>
+                <FormLabel className="text-md">Garages *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -335,7 +335,7 @@ export default function CreateListing() {
             name="yearBuild"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Year Built</FormLabel>
+                <FormLabel className="text-md">Year Built *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -353,7 +353,7 @@ export default function CreateListing() {
             name="floors"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Floor</FormLabel>
+                <FormLabel className="text-md">Floor *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -374,7 +374,7 @@ export default function CreateListing() {
             name="address"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Address</FormLabel>
+                <FormLabel className="text-md">Address *</FormLabel>
                 <FormControl>
                   <Input
                     className="w-full border p-2 focus-visible:ring-blue-700"
@@ -392,7 +392,7 @@ export default function CreateListing() {
             name="country"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Country</FormLabel>
+                <FormLabel className="text-md">Country *</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -416,7 +416,7 @@ export default function CreateListing() {
             name="subCity"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">Subcity</FormLabel>
+                <FormLabel className="text-md">Subcity *</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
@@ -444,7 +444,7 @@ export default function CreateListing() {
             name="city"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-md">City</FormLabel>
+                <FormLabel className="text-md">City *</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}

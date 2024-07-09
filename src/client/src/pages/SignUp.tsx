@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { z } from "zod";
 
 export default function SignUpPage() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const form = useForm<SignUpInput>({
     resolver: zodResolver(signUpFormSchema),
@@ -42,7 +42,7 @@ export default function SignUpPage() {
         },
         body: JSON.stringify(rest),
       });
-      return navigate('/login')
+      return navigate("/login");
     } catch (error: any) {
       console.error(error);
     }
@@ -50,13 +50,13 @@ export default function SignUpPage() {
 
   return (
     <main className="relative flex h-screen flex-col items-center justify-center gap-4 font-poppins">
-      <h1 className="mb-5 text-5xl font-semibold">Ethio-Property</h1>
+      <h1 className="mb-5 text-3xl font-semibold sm:text-5xl">Ethio-Property</h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="min-w-[600px] space-y-4"
+          className="w-full max-w-md space-y-4 sm:max-w-lg"
         >
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <FormField
               control={form.control}
               name="firstName"
@@ -148,7 +148,7 @@ export default function SignUpPage() {
           </Button>
         </form>
       </Form>
-      <Separator className="mt-2 max-w-[600px]" />
+      <Separator className="mt-2 w-full max-w-md sm:max-w-lg" />
       <div className="text-md">
         <p>
           Already have an account?{" "}
@@ -158,7 +158,7 @@ export default function SignUpPage() {
         </p>
       </div>
       <Link to="/">
-        <h1 className="absolute left-0 top-0 p-8 text-3xl font-bold">
+        <h1 className="absolute left-0 top-0 p-4 text-xl font-bold sm:p-8 sm:text-3xl">
           Ethio Property
         </h1>
       </Link>

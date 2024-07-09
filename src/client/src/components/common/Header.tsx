@@ -80,10 +80,10 @@ export default function Header() {
               Free Listing
             </Link>
             <Link
-              to="/login"
+              to="/profile"
               className="mb-2 block w-full rounded-md p-2 text-center text-gray-700 hover:bg-gray-100 hover:text-gray-900"
             >
-              Login
+              Profile
             </Link>
           </nav>
         )}

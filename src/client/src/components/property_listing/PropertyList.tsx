@@ -101,13 +101,13 @@ const PropertyList: React.FC = () => {
         </Link>
       </div>
 
-      <div className="mb-6">
+      {/* <div className="mb-6">
         <input
           type="text"
           className="w-full rounded-md border border-gray-300 px-3 py-2 focus:border-red-500 focus:outline-none"
           placeholder="Search"
         />
-      </div>
+      </div> */}
 
       {properties.map((property) => (
         <div
@@ -125,7 +125,7 @@ const PropertyList: React.FC = () => {
             <h2 className="mb-2 text-xl font-semibold">{property.title}</h2>
             <p className="text-gray-700">{property.description}</p>
           </div>
-          <div className="flex flex-col space-y-2">
+          <div className="flex md:flex-col space-y-2 ">
               <button
                 onClick={() => handleUpdate(property)}
                 className="rounded-md bg-blue-700 px-4 py-2 text-white hover:bg-blue-600"

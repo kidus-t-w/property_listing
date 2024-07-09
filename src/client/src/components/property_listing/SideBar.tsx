@@ -2,7 +2,6 @@ import { CircleUserRound, ClipboardPlus, List, LogOut } from "lucide-react";
 import React, { useState } from "react";
 import Cookies from "js-cookie";
 import { Link, useNavigate } from "react-router-dom";
-// import { Button } from "../ui/button";
 
 const Sidebar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -50,7 +49,11 @@ const Sidebar: React.FC = () => {
           </svg>
         </button>
       </div>
-      <div className="min-w-80 bg-blue-950 text-white">
+      <div
+        className={`min-w-80 bg-blue-950 text-white lg:block ${
+          isMenuOpen ? "block" : "hidden"
+        } lg:block`}
+      >
         <Link to="/" className="hidden p-4 text-2xl font-bold lg:block">
           Ethio Property
         </Link>
@@ -74,12 +77,14 @@ const Sidebar: React.FC = () => {
               </Link>
             </li>
             <li className="w-full py-4 pl-4 hover:bg-gray-700">
-              <Link to="/" className="flex gap-2">
+              <button
+                onClick={handleLogout}
+                type="button"
+                className="flex gap-2 w-full text-left"
+              >
                 <LogOut />
-                <button onClick={() => handleLogout()} type="button">
-                  Log Out
-                </button>
-              </Link>
+                <p>Log Out</p>
+              </button>
             </li>
           </ul>
         </nav>

@@ -7,7 +7,7 @@ const deploymentUrl = 'mongodb+srv://kidusk:BXWF8llRLdzkwB5o@notdetuts.agr7oi9.m
 
 async function connect() {
     try {
-        await mongoose.connect(url)
+        await mongoose.connect(deploymentUrl)
     } catch(error) {
         console.log(error)
         process.exit(1)

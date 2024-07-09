@@ -40,6 +40,10 @@ const router = createBrowserRouter([
         path: "contact",
         element: <Contact />,
       },
+      {
+        path: "search",
+        element: <Search />,
+      },
     ],
   },
   {
@@ -74,11 +78,8 @@ const router = createBrowserRouter([
         path: "update_listing",
         element: <UpdatedListing />,
       },
+      
     ],
-  },
-  {
-    path: "/search",
-    element: <Search />,
   },
   {
     path: "/login",
