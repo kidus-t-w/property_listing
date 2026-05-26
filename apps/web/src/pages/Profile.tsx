@@ -1,5 +1,5 @@
 import React from "react";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 import { Outlet, Navigate } from "react-router-dom";
 // import { useAuth } from "../contexts/auth.context";
 import Sidebar from "@/components/property_listing/SideBar";

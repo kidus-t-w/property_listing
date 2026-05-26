@@ -1,6 +1,7 @@
 node_modules/
 
 # Project
+dist/
 .vercel
 .prettierrc
 .idea

@@ -2,14 +2,15 @@ import { useState } from 'react';
 import PropertySection from "@/components/property_listing/SearchSection";
 
 export default function Search() {
-  const [selectedTypes, setSelectedTypes] = useState({
+  const [selectedTypes, setSelectedTypes] = useState<Record<string, boolean>>({
     Apartment: false,
     House: false,
     Land: false,
   });
-  const [filteredTypes, setFilteredTypes] = useState([]);
 
-  const handleCheckboxChange = (type: any) => {
+  const [filteredTypes, setFilteredTypes] = useState<string[]>([]);
+
+  const handleCheckboxChange = (type: string) => {
     setSelectedTypes({
       ...selectedTypes,
       [type]: !selectedTypes[type],

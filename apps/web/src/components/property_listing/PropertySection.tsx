@@ -21,7 +21,7 @@ export default function PropertySection({
 }: PropertySectionProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [properties, setProperties] = React.useState<Property[]>([]);
-  const [error, setError] = React.useState<string | null>(null);
+  const [_, setError] = React.useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleClick = (property: Property) => {

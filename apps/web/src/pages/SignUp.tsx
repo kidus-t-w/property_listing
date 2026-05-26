@@ -35,7 +35,7 @@ export default function SignUpPage() {
     const { confirm_password, ...rest } = values;
 
     try {
-      const res = await fetch("http://localhost:1337/api/users", {
+      await fetch("http://localhost:1337/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

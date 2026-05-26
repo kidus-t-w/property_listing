@@ -1,5 +1,5 @@
 import React from "react";
-import Sidebar from "@/components/property_listing/SideBar";
+// import Sidebar from "@/components/property_listing/SideBar";
 import PropertyList from "@/components/property_listing/PropertyList";
 
 const PropertyListing: React.FC = () => {

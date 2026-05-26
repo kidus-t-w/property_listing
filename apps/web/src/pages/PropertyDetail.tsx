@@ -1,31 +1,11 @@
-import AddisGlobal from "@/assets/img/propertyImage.jpeg";
+// import AddisGlobal from "@/assets/img/propertyImage.jpeg";
 import ContactUsForm from "@/components/common/ContactUsForm";
-import ContactForm from "@/components/common/Form";
-import { useLocation, useNavigate } from "react-router";
+// import ContactForm from "@/components/common/Form";
+import { useLocation } from "react-router";
 
 function PropertyDetail({}) {
-  // const navigate = useNavigate();
   const location = useLocation();
-
   const property = location.state.property;
-  // console.log("Property:", property);
-
-  // const property = {
-  //   _id: "1",
-  //   title: property.title,
-  //   imageUrls: [""],
-  //   address: "123 Main St, Springfield, IL",
-  //   description:
-  //     property.description,
-  //   offer: true,
-  //   discountPrice: 250000,
-  //   regularPrice: 300000,
-  //   type: "sale",
-  //   bedrooms: 3,
-  //   bathrooms: 2,
-  // };
-
-  console.log(property);
 
   return (
     <div>

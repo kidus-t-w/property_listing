@@ -1,7 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
 import { Property } from "@/types/property.types";
 import Card from "../common/Card";
 import PropertySkeleton from "./SkeletonCard";
@@ -21,7 +20,7 @@ export default function PropertySection({
 }: PropertySectionProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [properties, setProperties] = React.useState<Property[]>([]);
-  const [error, setError] = React.useState<string | null>(null);
+  const [_, setError] = React.useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleClick = (property: Property) => {

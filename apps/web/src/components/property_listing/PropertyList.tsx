@@ -6,17 +6,12 @@ import { Skeleton } from "../ui/skeleton";
 import PropertySkeleton from "./SkeletonCard";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
-interface Property {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
+import {Property} from '../../types/property.types'
 
 const PropertyList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [properties, setProperties] = useState<Property[]>([]);
-  const [error, setError] = useState<string | null>(null);
+  const [_, setError] = useState<string | null>(null);
   const token = Cookies.get("accessToken");
   const navigate = useNavigate();
 
@@ -53,9 +48,7 @@ const PropertyList: React.FC = () => {
     navigate("/property_detail", { state: { property } });
   };
 
-  const handleDelete = (id: number) => {
-    console.log("Deleting property with id:", id); // For debugging
-
+  const handleDelete = (id: string) => {
     axios
       .delete(`http://localhost:1337/api/property/${id}`, {
         headers: {
