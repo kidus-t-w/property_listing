@@ -45,7 +45,7 @@ export default function PropertySection({
 
     axios
       .get<Property[]>(
-        `http://localhost:1337/api/property?${searchParams.toString()}`
+        `${import.meta.env.VITE_BACKEND_URL}/api/property?${searchParams.toString()}`
       )
       .then((data) => {
         const properties = data.data;

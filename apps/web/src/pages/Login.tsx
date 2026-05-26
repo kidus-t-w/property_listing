@@ -51,7 +51,7 @@ export default function LoginPage() {
     try {
       // make the request to the server
       const response = await axios.post<LoginResponse>(
-        "http://localhost:1337/api/sessions",
+        `${import.meta.env.VITE_BACKEND_URL}/api/sessions`,
         {
           email,
           password,

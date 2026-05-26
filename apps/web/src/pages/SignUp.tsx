@@ -30,12 +30,10 @@ export default function SignUpPage() {
   });
 
   async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
-    console.log("Form values:", values); // Log form values
-
     const { confirm_password, ...rest } = values;
 
     try {
-      await fetch("http://localhost:1337/api/users", {
+      await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
