@@ -1,6 +1,6 @@
-import config from 'config' 
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
+import config from "../../config/default"
 
 export interface UserInput { 
   userName?: string | undefined;
@@ -37,7 +37,7 @@ userSchema.pre('save', async function (next) {
   if (!user.isModified('password')) 
     return next()
   
-  const salt = await bcrypt.genSalt(config.get<number>('saltWorkFactor'))
+  const salt = await bcrypt.genSalt(config.saltWorkFactor)
   user.password = await bcrypt.hash(user.password, salt)
   return next()
 })

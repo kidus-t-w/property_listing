@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken'
-import config from 'config'
 import { Request, Response } from 'express'
 import { signJwt } from '../utils/jwt.utils'
+import config from '../../config/default'
 import { UserDocument } from '../models/user.model'
 import { validatePassword } from '../services/users.service'
 import { createSession, findSessions, updateSession } from '../services/session.service'
@@ -16,8 +16,8 @@ export async function createUserSessionHandler(req: Request<{}, {}, CreateSessio
 
   const user = result as unknown as UserDocument
   const session = await createSession(user._id.toString(), req.get('user-agent') || '')
-  const accessToken = signJwt({ ...user, session: session._id }, { expiresIn: config.get<string>('accessTokenTtl') as jwt.SignOptions['expiresIn'] })
-  const refreshToken = signJwt({ ...user, session: session._id }, { expiresIn: config.get<string>('refreshTokenTtl') as jwt.SignOptions['expiresIn'] })
+  const accessToken = signJwt({ ...user, session: session._id }, { expiresIn: config.accessTokenTtl as jwt.SignOptions['expiresIn'] })
+  const refreshToken = signJwt({ ...user, session: session._id }, { expiresIn: config.refreshTokenTtl as jwt.SignOptions['expiresIn'] })
 
   return res.status(200).json({ accessToken, refreshToken })
 }

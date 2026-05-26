@@ -1,7 +1,8 @@
 import _ from 'lodash'
-import config from 'config'
+import jwt from "jsonwebtoken"
 import { getUser } from './users.service'
 import { FilterQuery, UpdateQuery } from 'mongoose'
+import config from "../../config/default"
 import { signJwt, verifyJwt } from '../utils/jwt.utils'
 import SessionModel, { SessionDocument } from '../models/session.model'
 
@@ -34,5 +35,5 @@ export async function reIssueAccessToken({ refreshToken }: { refreshToken: strin
   return signJwt({
     ...user,
     session: session._id
-  }, { expiresIn: config.get<number>('accessTokenTtl') })
+  }, { expiresIn: config.accessTokenTtl as jwt.SignOptions['expiresIn'] })
 }
