@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-const url = 'mongodb://localhost:27017/product_listing'
-const deploymentUrl = 'mongodb+srv://kidusk:BXWF8llRLdzkwB5o@notdetuts.agr7oi9.mongodb.net/product_listing?retryWrites=true&w=majority&appName=notdetuts'
+const DATABASE_URL = process.env.DATABASE_URL; // TODO: Add dotenv package
 
 
+// TODO: CHANGE THIS TO A CLASS!!!
 
 async function connect() {
     try {
-        await mongoose.connect(deploymentUrl)
+        await mongoose.connect(DATABASE_URL as string)
     } catch(error) {
         console.log(error)
         process.exit(1)

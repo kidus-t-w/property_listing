@@ -1,3 +1,5 @@
+require("dotenv").config()
+
 import cors from 'cors'
 import authRouter from './routes/auth.routes'
 import { connect, isAlive } from './utils/db'

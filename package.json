@@ -1,0 +1,10 @@
+{
+    "name": "property-listing",
+    "scripts": {
+        "dev": "turbo run dev"
+    },
+    "packageManager": "npm@11.13.0",
+    "workspaces": [
+        "apps/*"
+    ]
+}
