@@ -16,6 +16,7 @@ import {
   Briefcase,
   LogIn,
   Sparkles,
+  Search,
 } from "lucide-react";
 import { isAuthenticated } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -34,11 +35,15 @@ export default function Header() {
 
   const navLinks = [
     { name: "Home", path: "/", icon: Home },
+    { name: "Properties", path: "/search", icon: Search },
     { name: "Services", path: "/services", icon: Briefcase },
     { name: "Contact", path: "/contact", icon: Phone },
   ];
 
   const isActiveLink = (path: string) => location.pathname === path;
+
+  // Determine free listing link based on auth status
+  const freeListingLink = isAuth ? "/profile/create_listing" : "/login";
 
   return (
     <Fragment>
@@ -144,7 +149,7 @@ export default function Header() {
                   className="h-auto rounded-full bg-[#533afd] px-4 py-2 text-[16px] font-normal text-white transition-all duration-200 hover:bg-[#4434d4] focus-visible:ring-2 focus-visible:ring-[#533afd] focus-visible:ring-offset-2"
                   style={{ lineHeight: 1 }}
                 >
-                  <Link to="/profile" className="flex items-center gap-2">
+                  <Link to={freeListingLink} className="flex items-center gap-2">
                     <Sparkles
                       className="h-4 w-4 transition-transform duration-300 group-hover:rotate-12"
                       aria-hidden="true"
@@ -259,7 +264,7 @@ export default function Header() {
                         className="mt-2 h-auto w-full rounded-full bg-[#533afd] px-4 py-2 text-[16px] font-normal text-white transition-all duration-200 hover:bg-[#4434d4]"
                         style={{ lineHeight: 1 }}
                       >
-                        <Link to="/profile" className="flex items-center justify-center gap-2">
+                        <Link to={freeListingLink} className="flex items-center justify-center gap-2">
                           <Sparkles
                             className="h-[13px] w-[13px] transition-transform duration-300 group-hover:rotate-12"
                             aria-hidden="true"
