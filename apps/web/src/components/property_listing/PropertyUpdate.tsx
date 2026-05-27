@@ -23,7 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "../ui/textarea";
 import Cookies from "js-cookie";
 import { useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 
 const formSchema = z.object({
   title: z.string().min(4, "Title must be at least 4 characters"),

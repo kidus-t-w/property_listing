@@ -1,6 +1,6 @@
 import ContactUsForm from "@/components/common/ContactUsForm";
 import { useLocation } from "react-router";
-import { MapPin, Bed, Bath, Ruler, Car, Calendar, Building, Home, Check, X } from "lucide-react";
+import { MapPin, Bed, Bath, Ruler, Car, Calendar, Building, Home, Check } from "lucide-react";
 import { useState } from "react";
 
 function PropertyDetail() {

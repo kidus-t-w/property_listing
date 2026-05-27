@@ -2,7 +2,7 @@ import HeroSection from "@/components/common/HeroSection";
 import PropertySection from "@/components/property_listing/PropertySection";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Shield, Clock, Users, BarChart3, Home as HomeIcon } from "lucide-react";
+import { Shield, Clock, Users } from "lucide-react";
 
 export default function Home() {
   return (
