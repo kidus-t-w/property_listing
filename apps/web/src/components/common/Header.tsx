@@ -44,21 +44,22 @@ export default function Header() {
     <Fragment>
       <header
         className={cn(
-          "sticky top-0 z-50 w-full transition-all duration-300 mb-4",
+          "sticky top-0 z-50 w-full transition-all duration-300",
           scrolled
-            ? "shadow-[0_2px_24px_rgba(44,31,20,0.10)] bg-gray-200 backdrop-blur-md border-b border-blue-800/30"
-            : "bg-white border-b border-blue-800/20"
+            ? "bg-white shadow-[0_1px_3px_rgba(0,55,112,0.08)] border-b border-[#e3e8ee]"
+            : "bg-white border-b border-[#e3e8ee]"
         )}
       >
-        <div className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          {/* Logo */}
           <Link
             to="/"
             className="group flex items-center gap-3 select-none"
             aria-label="Ethio Property – home"
           >
-            <span className="relative bg-gray-700 flex h-9 w-9 shrink-0 items-center justify-center rounded-md overflow-hidden transition-transform duration-75 group-hover:scale-105" >
+            <span className="relative bg-[#0d253d] flex h-9 w-9 shrink-0 items-center justify-center rounded-md overflow-hidden transition-transform duration-75 group-hover:scale-105">
               <Sparkles
-                className="h-4 w-4 text-gray-300 transition-transform duration-300 group-hover:rotate-12"
+                className="h-4 w-4 text-white/80 transition-transform duration-300 group-hover:rotate-12"
                 aria-hidden="true"
               />
               <span
@@ -70,21 +71,18 @@ export default function Header() {
               />
             </span>
 
-            <span className="font-light flex flex-col leading-none">
-              <span
-                className="text-[22px] font-[500] tracking-tight text-gray-800 sm:text-lg"
-              >
+            <span className="flex flex-col leading-none">
+              <span className="text-[22px] font-light tracking-[-0.26px] text-[#0d253d]">
                 Ethio Property
               </span>
-              <span
-                className="text-[10px] tracking-[0.18em] uppercase text-gray-400 font-[300]"
-              >
+              <span className="text-[10px] tracking-[0.1px] uppercase text-[#64748d] font-light">
                 Real Estate
               </span>
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-10 sm:flex" aria-label="Main navigation">
+          {/* Desktop Navigation */}
+          <nav className="hidden items-center gap-8 sm:flex" aria-label="Main navigation">
             {navLinks.map((link) => {
               const Icon = link.icon;
               const isActive = isActiveLink(link.path);
@@ -93,45 +91,41 @@ export default function Header() {
                   key={link.path}
                   to={link.path}
                   className={cn(
-                    "group relative flex items-center text-sm gap-1.5 tracking-wide uppercase font-[400] transition-colors duration-[var(--ep-dur)]",
-                    isActive
-                      ? "text-gray-800"
-                      : "text-gray-800/90 hover:text-[var(--ep-ink)]"
+                    "relative flex items-center text-[15px] font-light gap-1.5 text-[#0d253d] transition-colors duration-200",
+                    isActive ? "text-[#533afd]" : "hover:text-[#533afd]"
                   )}
                 >
                   <Icon
                     className={cn(
                       "h-4 w-4 shrink-0 transition-transform duration-200 group-hover:scale-110",
-                      isActive ? "text-gray-800" : "text-gray-800/80"
+                      isActive ? "text-[#533afd]" : "text-[#64748d]"
                     )}
                     aria-hidden="true"
                   />
                   {link.name}
 
-                  {/* Active underline — drawn like a wax seal stroke */}
-                  <span
-                    className={cn(
-                      "absolute bg-gray-800 -bottom-[22px] left-0 right-0 h-[1.5px] rounded-full transition-transform duration-300 origin-left",
-                      isActive ? "scale-x-100" : "scale-x-0"
-                    )}
-                    aria-hidden="true"
-                  />
+                  {/* Active indicator */}
+                  {isActive && (
+                    <span
+                      className="absolute -bottom-[26px] left-0 right-0 h-[2px] rounded-full bg-[#533afd]"
+                      aria-hidden="true"
+                    />
+                  )}
                 </Link>
               );
             })}
           </nav>
 
-          {/* ── Desktop Actions ── */}
-          <div className="hidden items-center gap-5 sm:flex">
+          {/* Desktop Actions */}
+          <div className="hidden items-center gap-6 sm:flex">
             {isAuth ? (
               <Link
                 to="/profile"
-                className="group relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-[var(--ep-dur)] hover:bg-[var(--ep-linen)]"
-                style={{ border: "1px solid var(--ep-stone)" }}
+                className="group relative flex h-9 w-9 items-center justify-center rounded-full transition-all duration-200 hover:bg-[#f6f9fc] border border-[#e3e8ee]"
                 aria-label="My profile"
               >
                 <CircleUserRound
-                  className="h-[18px] w-[18px] text-[var(--ep-earth)] transition-transform duration-200 group-hover:scale-110"
+                  className="h-[18px] w-[18px] text-[#64748d] transition-transform duration-200 group-hover:scale-110"
                   aria-hidden="true"
                 />
               </Link>
@@ -139,7 +133,7 @@ export default function Header() {
               <>
                 <Link
                   to="/login"
-                  className="flex items-center gap-1.5 text-[13px] tracking-[0.06em] uppercase font-[400] text-[var(--ep-ink)]/70 transition-colors duration-[var(--ep-dur)] hover:text-[var(--ep-ink)]"
+                  className="flex items-center gap-1.5 text-[15px] font-light text-[#533afd] transition-colors duration-200 hover:text-[#4434d4]"
                 >
                   <LogIn className="h-[13px] w-[13px]" aria-hidden="true" />
                   Login
@@ -147,9 +141,8 @@ export default function Header() {
 
                 <Button
                   asChild
-                  variant="outline"
-                  size="default"
-                  className="group relative h-9 overflow-hidden rounded-md px-5 text-sm tracking-tight uppercase font-[400] transition-all duration-[var(--ep-dur)] hover:opacity-90 focus-visible:ring-[var(--ep-terra)]"
+                  className="h-auto rounded-full bg-[#533afd] px-4 py-2 text-[16px] font-normal text-white transition-all duration-200 hover:bg-[#4434d4] focus-visible:ring-2 focus-visible:ring-[#533afd] focus-visible:ring-offset-2"
+                  style={{ lineHeight: 1 }}
                 >
                   <Link to="/profile" className="flex items-center gap-2">
                     <Sparkles
@@ -163,51 +156,36 @@ export default function Header() {
             )}
           </div>
 
-          {/* ── Mobile Menu Trigger ── */}
+          {/* Mobile Menu Trigger */}
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-9 w-9 rounded-[var(--ep-radius)] transition-colors duration-[var(--ep-dur)] hover:bg-[var(--ep-linen)] sm:hidden"
-                style={{ border: "1px solid var(--ep-stone)/60" }}
+                className="h-9 w-9 rounded-md border border-[#e3e8ee] transition-colors duration-200 hover:bg-[#f6f9fc] sm:hidden"
                 aria-label="Open navigation menu"
               >
-                <Menu className="h-5 w-5 text-[var(--ep-earth)]" aria-hidden="true" />
+                <Menu className="h-5 w-5 text-[#64748d]" aria-hidden="true" />
               </Button>
             </SheetTrigger>
 
-            {/* ── Mobile Drawer ── */}
+            {/* Mobile Drawer */}
             <SheetContent
               side="right"
-              className="w-[300px] sm:w-[340px] flex flex-col border-l"
-              style={{
-                background: "var(--ep-sand)",
-                borderColor: "var(--ep-stone)",
-                fontFamily: "var(--ep-sans)",
-              }}
+              className="w-[300px] sm:w-[340px] flex flex-col bg-white border-l border-[#e3e8ee] p-0"
             >
               {/* Drawer header */}
-              <div
-                className="flex items-center gap-3 border-b py-5 px-2"
-                style={{ borderColor: "var(--ep-linen)" }}
-              >
-                <span
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--ep-radius)]"
-                  style={{ background: "var(--ep-earth)" }}
-                >
-                  <Sparkles className="h-4 w-4 text-[var(--ep-sand)]" aria-hidden="true" />
+              <div className="flex items-center gap-3 border-b border-[#e3e8ee] px-6 py-5">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#0d253d]">
+                  <Sparkles className="h-4 w-4 text-white" aria-hidden="true" />
                 </span>
-                <span
-                  className="text-[19px] font-[500] text-[var(--ep-ink)] leading-none"
-                  style={{ fontFamily: "var(--ep-serif)" }}
-                >
+                <span className="text-[19px] font-light tracking-[-0.22px] text-[#0d253d]">
                   Ethio Property
                 </span>
               </div>
 
               {/* Nav links */}
-              <nav className="flex flex-col gap-1 pt-4 px-1" aria-label="Mobile navigation">
+              <nav className="flex flex-col gap-1 px-4 pt-6" aria-label="Mobile navigation">
                 {navLinks.map((link) => {
                   const Icon = link.icon;
                   const isActive = isActiveLink(link.path);
@@ -216,24 +194,23 @@ export default function Header() {
                       <Link
                         to={link.path}
                         className={cn(
-                          "flex items-center gap-3 rounded-[var(--ep-radius)] px-4 py-3 text-[13px] tracking-[0.06em] uppercase transition-all duration-[var(--ep-dur)]",
+                          "flex items-center gap-3 rounded-md px-4 py-3 text-[15px] font-light transition-all duration-200",
                           isActive
-                            ? "bg-[var(--ep-linen)] text-[var(--ep-earth)]"
-                            : "text-[var(--ep-ink)]/70 hover:bg-[var(--ep-linen)] hover:text-[var(--ep-ink)]"
+                            ? "bg-[#f6f9fc] text-[#533afd]"
+                            : "text-[#0d253d] hover:bg-[#f6f9fc] hover:text-[#533afd]"
                         )}
                       >
                         <Icon
                           className={cn(
                             "h-[14px] w-[14px] shrink-0",
-                            isActive ? "text-[var(--ep-terra)]" : "text-[var(--ep-stone)]"
+                            isActive ? "text-[#533afd]" : "text-[#64748d]"
                           )}
                           aria-hidden="true"
                         />
                         {link.name}
                         {isActive && (
                           <span
-                            className="ml-auto h-1.5 w-1.5 rounded-full"
-                            style={{ background: "var(--ep-terra)" }}
+                            className="ml-auto h-1.5 w-1.5 rounded-full bg-[#533afd]"
                             aria-hidden="true"
                           />
                         )}
@@ -244,21 +221,18 @@ export default function Header() {
               </nav>
 
               {/* Divider */}
-              <div
-                className="mx-4 my-4 h-px"
-                style={{ background: "var(--ep-stone)/40" }}
-              />
+              <div className="mx-4 my-4 h-px bg-[#e3e8ee]" />
 
               {/* Auth actions */}
-              <div className="flex flex-col gap-2 px-1">
+              <div className="flex flex-col gap-2 px-4">
                 {isAuth ? (
                   <SheetClose asChild>
                     <Link
                       to="/profile"
-                      className="flex items-center gap-3 rounded-[var(--ep-radius)] px-4 py-3 text-[13px] tracking-[0.06em] uppercase text-[var(--ep-ink)]/70 transition-all duration-[var(--ep-dur)] hover:bg-[var(--ep-linen)] hover:text-[var(--ep-ink)]"
+                      className="flex items-center gap-3 rounded-md px-4 py-3 text-[15px] font-light text-[#0d253d] transition-all duration-200 hover:bg-[#f6f9fc]"
                     >
                       <CircleUserRound
-                        className="h-[14px] w-[14px] text-[var(--ep-stone)]"
+                        className="h-[14px] w-[14px] text-[#64748d]"
                         aria-hidden="true"
                       />
                       Profile
@@ -269,10 +243,10 @@ export default function Header() {
                     <SheetClose asChild>
                       <Link
                         to="/login"
-                        className="flex items-center gap-3 rounded-[var(--ep-radius)] px-4 py-3 text-[13px] tracking-[0.06em] uppercase text-[var(--ep-ink)]/70 transition-all duration-[var(--ep-dur)] hover:bg-[var(--ep-linen)] hover:text-[var(--ep-ink)]"
+                        className="flex items-center gap-3 rounded-md px-4 py-3 text-[15px] font-light text-[#533afd] transition-all duration-200 hover:bg-[#f6f9fc]"
                       >
                         <LogIn
-                          className="h-[14px] w-[14px] text-[var(--ep-stone)]"
+                          className="h-[14px] w-[14px] text-[#533afd]"
                           aria-hidden="true"
                         />
                         Login
@@ -282,19 +256,12 @@ export default function Header() {
                     <SheetClose asChild>
                       <Button
                         asChild
-                        className="group mt-1 h-10 w-full rounded-[var(--ep-radius)] text-[12px] tracking-[0.1em] uppercase font-[400] text-[var(--ep-sand)] transition-all duration-[var(--ep-dur)] hover:opacity-90"
-                        style={{
-                          background: "var(--ep-earth)",
-                          fontFamily: "var(--ep-sans)",
-                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.12)",
-                        }}
+                        className="mt-2 h-auto w-full rounded-full bg-[#533afd] px-4 py-2 text-[16px] font-normal text-white transition-all duration-200 hover:bg-[#4434d4]"
+                        style={{ lineHeight: 1 }}
                       >
-                        <Link
-                          to="/profile"
-                          className="flex items-center justify-center gap-2"
-                        >
+                        <Link to="/profile" className="flex items-center justify-center gap-2">
                           <Sparkles
-                            className="h-[13px] w-[13px] text-[var(--ep-stone)] transition-transform duration-300 group-hover:rotate-12"
+                            className="h-[13px] w-[13px] transition-transform duration-300 group-hover:rotate-12"
                             aria-hidden="true"
                           />
                           Free Listing
@@ -306,18 +273,14 @@ export default function Header() {
               </div>
 
               {/* Footer note */}
-              <div className="mt-auto px-4 pb-6 pt-4">
-                <p
-                  className="text-[11px] leading-relaxed"
-                  style={{ color: "var(--ep-stone)", fontFamily: "var(--ep-sans)" }}
-                >
+              <div className="mt-auto px-6 pb-6 pt-8">
+                <p className="text-[11px] font-light leading-relaxed text-[#64748d]">
                   Ethiopia&apos;s premier real estate marketplace — connecting people with
                   property since 2020.
                 </p>
               </div>
             </SheetContent>
           </Sheet>
-
         </div>
       </header>
     </Fragment>

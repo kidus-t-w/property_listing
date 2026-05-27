@@ -1,118 +1,179 @@
-import card from "@/assets/img/front.png";
-// import { Button } from "../ui/button"; // FIX THIS
 import { Link } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Pause, Play } from "lucide-react";
+
+// Replace these with your actual images (import or public URLs)
+const heroImages = [
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format",
+  "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&auto=format",
+  "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format",
+  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&auto=format",
+];
 
 const HeroSection: React.FC = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Auto‑advance
+  useEffect(() => {
+    if (isPlaying) {
+      intervalRef.current = setInterval(() => {
+        setCurrentIndex((prev) => (prev + 1) % heroImages.length);
+      }, 2500); // 2.5 seconds
+    } else if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isPlaying]);
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
   return (
-    <section className="relative mb-8 min-h-[600px] overflow-hidden rounded-md">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a1628] via-[#112240] to-[#1a3a5c]" />
-      <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-amber-900/20 blur-[120px]" />
-      <div className="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-blue-800/30 blur-[100px]" />
-      <div className="absolute top-1/2 left-1/3 h-64 w-64 rounded-full bg-amber-700/10 blur-[80px]" />
+    <section className="relative min-h-[calc(100vh-72px)] overflow-hidden">
+      {/* Gradient mesh backdrop */}
+      <div className="absolute inset-0 h-full w-full">
+        <svg
+          className="absolute inset-0 h-full w-full"
+          preserveAspectRatio="none"
+          viewBox="0 0 1440 600"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="1440" height="600" fill="#ffffff" />
+          <circle cx="200" cy="150" r="280" fill="#f5e9d4" fillOpacity="0.7" />
+          <circle cx="500" cy="100" r="300" fill="#f5d5a8" fillOpacity="0.6" />
+          <circle cx="900" cy="180" r="320" fill="#b9b9f9" fillOpacity="0.5" />
+          <circle cx="1200" cy="80" r="260" fill="#533afd" fillOpacity="0.15" />
+          <circle cx="1350" cy="200" r="220" fill="#ea2261" fillOpacity="0.2" />
+          <circle cx="100" cy="400" r="180" fill="#f96bee" fillOpacity="0.1" />
+          <circle cx="700" cy="350" r="250" fill="#9b6829" fillOpacity="0.08" />
+          <filter id="blur">
+            <feGaussianBlur stdDeviation="60" />
+          </filter>
+          <g filter="url(#blur)">
+            <circle cx="200" cy="150" r="280" fill="#f5e9d4" fillOpacity="0.7" />
+            <circle cx="500" cy="100" r="300" fill="#f5d5a8" fillOpacity="0.6" />
+            <circle cx="900" cy="180" r="320" fill="#b9b9f9" fillOpacity="0.5" />
+            <circle cx="1200" cy="80" r="260" fill="#533afd" fillOpacity="0.15" />
+            <circle cx="1350" cy="200" r="220" fill="#ea2261" fillOpacity="0.2" />
+            <circle cx="100" cy="400" r="180" fill="#f96bee" fillOpacity="0.1" />
+            <circle cx="700" cy="350" r="250" fill="#9b6829" fillOpacity="0.08" />
+          </g>
+        </svg>
+      </div>
 
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E")`,
-        }}
-      />
-
-      <div className="relative flex min-h-[600px] flex-col items-center justify-between px-6 py-14 lg:flex-row lg:px-20">
-        <div className="z-10 flex flex-col gap-8 lg:w-1/2">
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border border-amber-400/20 bg-amber-400/10 px-4 py-1.5 backdrop-blur-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-amber-300">
-              Premium Real Estate
-            </span>
-          </div>
-
-          <div className="space-y-3">
-            <h1 className="text-4xl font-bold leading-tight text-white lg:text-6xl">
-              Find Your{" "}
-              <span className="bg-gradient-to-r from-amber-300 to-amber-500 bg-clip-text text-transparent">
-                Dream Home
-              </span>
-            </h1>
-            <p className="text-lg font-light text-blue-200 lg:text-xl">
-              Where Luxury Meets Comfort
-            </p>
-          </div>
-
-          <p className="max-w-md text-sm leading-relaxed text-slate-400 lg:text-base">
-            Discover handpicked properties tailored to your lifestyle. From
-            serene family villas to sleek city apartments — explore, compare,
-            and secure your perfect space with confidence.
-          </p>
-
-          <div className="flex flex-wrap gap-4">
-            <Link to="/search">
-              <button className="group relative overflow-hidden rounded-xl px-7 py-3 text-sm font-semibold text-white transition-all duration-300 hover:scale-105">
-                <span className="absolute inset-0 rounded-xl border border-white/20 bg-white/10 backdrop-blur-md" />
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/10 to-transparent" />
-                <span className="absolute inset-[1px] rounded-[11px] bg-gradient-to-b from-white/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-                <span className="relative flex items-center gap-2">
-                  <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                  Browse Listings
+      {/* Main content — full height, flex container to center card */}
+      <div className="relative z-10 flex min-h-[calc(100vh-72px)] w-full items-center px-4 py-8 md:px-8 lg:px-12">
+        {/* Floating white card */}
+        <div className="mx-auto w-full rounded-2xl bg-white shadow-[0_8px_24px_rgba(0,55,112,0.08),0_2px_6px_rgba(0,55,112,0.04)] border border-[#e3e8ee] p-8 md:p-12 lg:p-16">
+          <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
+            {/* Left column: copy & CTAs */}
+            <div className="flex-1 space-y-8">
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#b9b9f9] px-3 py-1">
+                <span className="h-1.5 w-1.5 rounded-full bg-[#533afd]" />
+                <span className="text-[10px] font-medium uppercase tracking-[0.1px] text-[#4434d4]">
+                  Premium Real Estate
                 </span>
-              </button>
-            </Link>
-
-            <Link to="/services">
-              <button className="group relative overflow-hidden rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 px-7 py-3 text-sm font-semibold text-white shadow-lg shadow-amber-900/30 transition-all duration-300 hover:scale-105 hover:shadow-amber-800/40">
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-t from-black/10 to-white/10" />
-                <span className="relative flex items-center gap-2">
-                  Learn More
-                  <svg className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+              </div>
+              <h1 className="text-5xl font-light tracking-[-1.4px] text-[#0d253d] md:text-7xl md:tracking-[-1.4px] lg:text-8xl">
+                Find Your{" "}
+                <span className="bg-gradient-to-r from-[#533afd] to-[#ea2261] bg-clip-text text-transparent">
+                  Dream Home
                 </span>
-              </button>
-            </Link>
-          </div>
-
-          <div className="flex gap-8">
-            {[
-              { value: "1,200+", label: "Properties" },
-              { value: "98%", label: "Happy Clients" },
-              { value: "12", label: "Cities" },
-            ].map(({ value, label }) => (
-              <div key={label}>
-                <p className="text-xl font-bold text-white lg:text-2xl">{value}</p>
-                <p className="text-xs text-slate-400">{label}</p>
+              </h1>
+              <p className="text-xl font-light tracking-[-0.2px] text-[#273951] md:text-2xl">
+                Where Luxury Meets Comfort
+              </p>
+              <p className="max-w-lg text-[15px] font-light leading-relaxed text-[#64748d]">
+                Discover handpicked properties tailored to your lifestyle. From
+                serene family villas to sleek city apartments — explore, compare,
+                and secure your perfect space with confidence.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link to="/search">
+                  <button className="rounded-full bg-[#533afd] px-4 py-2 text-[16px] font-normal text-white transition-all duration-200 hover:bg-[#4434d4] focus:outline-none focus:ring-2 focus:ring-[#533afd] focus:ring-offset-2">
+                    Browse Listings
+                  </button>
+                </Link>
+                <Link to="/services">
+                  <button className="rounded-full border border-[#533afd] bg-white px-4 py-2 text-[16px] font-normal text-[#533afd] transition-all duration-200 hover:bg-[#f6f9fc] focus:outline-none focus:ring-2 focus:ring-[#533afd] focus:ring-offset-2">
+                    Learn More
+                  </button>
+                </Link>
               </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative z-10 mt-12 hidden lg:mt-0 lg:flex lg:w-[45%] lg:justify-end">
-          <div className="relative rounded-3xl border border-white/10 bg-white/5 p-3 shadow-2xl backdrop-blur-sm">
-            <img
-              src={card}
-              alt="Luxury property"
-              className="h-[400px] w-full rounded-2xl object-cover"
-            />
-
-            <div className="absolute -bottom-5 -left-6 flex items-center gap-3 rounded-2xl border border-white/20 bg-white/10 px-4 py-3 shadow-xl backdrop-blur-md">
-              <div className="flex h-9 w-9 items-center justify-center rounded-full bg-amber-400/20">
-                <svg className="h-5 w-5 text-amber-300" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
-                </svg>
-              </div>
-              <div>
-                <p className="text-xs font-bold text-white">New Listing</p>
-                <p className="text-[10px] text-slate-400">Bole, Addis Ababa</p>
+              <div className="flex gap-8">
+                {[
+                  { value: "1,200+", label: "Properties" },
+                  { value: "98%", label: "Happy Clients" },
+                  { value: "12", label: "Cities" },
+                ].map(({ value, label }) => (
+                  <div key={label}>
+                    <p className="text-2xl font-light tracking-[-0.26px] text-[#0d253d] [font-feature-settings:'tnum']">
+                      {value}
+                    </p>
+                    <p className="text-[13px] font-normal text-[#64748d]">
+                      {label}
+                    </p>
+                  </div>
+                ))}
               </div>
             </div>
 
-            <div className="absolute -right-5 top-6 rounded-2xl border border-white/20 bg-white/10 px-4 py-2 shadow-xl backdrop-blur-md">
-              <p className="text-xs text-slate-300">Starting from</p>
-              <p className="text-sm font-bold text-amber-300">8,500 Birr</p>
+            {/* Right column: image carousel */}
+            <div className="flex-1">
+              <div className="relative overflow-hidden rounded-xl bg-[#f6f9fc]">
+                {/* Carousel container with aspect ratio and vertical centering */}
+                <div className="relative aspect-[4/3] w-full">
+                  {heroImages.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                        idx === currentIndex ? "opacity-100" : "opacity-0 pointer-events-none"
+                      }`}
+                    >
+                      <img
+                        src={img}
+                        alt={`Property ${idx + 1}`}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Controls overlay (play/pause + dots) */}
+                <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-2">
+                  {/* Pause/Play button */}
+                  
+
+                  {/* Dot indicators */}
+                  <div className="flex gap-2">
+                    {heroImages.map((_, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => goToSlide(idx)}
+                        className={`h-2 rounded-full transition-all ${
+                          idx === currentIndex
+                            ? "w-6 bg-[#533afd]"
+                            : "w-2 bg-white/60 hover:bg-white/90"
+                        }`}
+                        aria-label={`Go to slide ${idx + 1}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <p className="mt-3 text-center text-[11px] font-light text-[#64748d]">
+                Handpicked properties • curated by Ethio Property
+              </p>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

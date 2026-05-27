@@ -1,5 +1,4 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { Property } from "@/types/property.types";
@@ -21,7 +20,7 @@ export default function PropertySection({
 }: PropertySectionProps) {
   const [loading, setLoading] = React.useState<boolean>(false);
   const [properties, setProperties] = React.useState<Property[]>([]);
-  const [_, setError] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleClick = (property: Property) => {
@@ -30,7 +29,7 @@ export default function PropertySection({
 
   React.useEffect(() => {
     setLoading(true);
-    // make the api call
+    setError(null);
     const searchParams = new URLSearchParams();
 
     if (type) {
@@ -48,25 +47,27 @@ export default function PropertySection({
         `${import.meta.env.VITE_BACKEND_URL}/api/property?${searchParams.toString()}`
       )
       .then((data) => {
-        const properties = data.data;
-        setProperties(properties);
+        // Ensure data is an array and filter out any invalid entries
+        const validProperties = Array.isArray(data.data)
+          ? data.data.filter((p) => p && typeof p === "object")
+          : [];
+        setProperties(validProperties);
         setLoading(false);
       })
       .catch((e: any) => {
         setError(e.message);
         setLoading(false);
       });
-  }, [setLoading]);
+  }, [type, recent]);
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <Skeleton className="h-10 w-40" />
-          <Skeleton className="h-10 w-28" />
+          <Skeleton className="h-10 w-48" />
+          <Skeleton className="h-10 w-28 rounded-full" />
         </div>
-
-        <div className="grid grid-cols-1 place-items-center gap-y-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {Array.from({ length: 4 }, (_, i) => (
             <PropertySkeleton key={i} />
           ))}
@@ -75,20 +76,59 @@ export default function PropertySection({
     );
   }
 
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-4xl font-light tracking-[-0.64px] text-[#0d253d] md:text-5xl lg:text-6xl">
+            {title}
+          </h2>
+        </div>
+        <div className="rounded-lg border border-[#e3e8ee] bg-[#f6f9fc] p-8 text-center text-[#64748d]">
+          Failed to load properties. Please try again later.
+        </div>
+      </div>
+    );
+  }
+
+  if (properties.length === 0) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-4xl font-light tracking-[-0.64px] text-[#0d253d] md:text-5xl lg:text-6xl">
+            {title}
+          </h2>
+        </div>
+        <div className="rounded-lg border border-[#e3e8ee] bg-[#f6f9fc] p-8 text-center text-[#64748d]">
+          No properties found in this category.
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className={cn("text-2xl font-semibold")}>{title}</h2>
-        <Link to={"/search"}>
-          <Button variant={"outline"} className="border-gray-500 shadow-md">
+        <h2 className="text-4xl font-light tracking-[-0.64px] text-[#0d253d] md:text-5xl lg:text-6xl">
+          {title}
+        </h2>
+        <Link to="/search">
+          <Button
+            variant="outline"
+            className="h-auto rounded-full border-[#533afd] px-4 py-2 text-[16px] font-normal text-[#533afd] transition-all hover:bg-[#f6f9fc] hover:text-[#4434d4]"
+          >
             See more
           </Button>
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 place-items-center gap-y-8 gap-x-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {properties.map((property) => (
-          <button onClick={() => handleClick(property)} >
+          <button
+            key={property._id}
+            onClick={() => handleClick(property)}
+            className="w-full rounded-lg text-left focus:outline-none focus:ring-2 focus:ring-[#533afd] focus:ring-offset-2"
+          >
             <Card property={property} />
           </button>
         ))}

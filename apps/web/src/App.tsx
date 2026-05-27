@@ -3,14 +3,13 @@ import Header from "./components/common/Header";
 import { Footer } from "./components/common/Footer";
 
 export default function App() {
-  // return <h1 className="text-3xl font-bold underline">Hello world!</h1>
   return (
-    <>
+    <div className="min-h-screen bg-white font-['Inter',system-ui] antialiased [font-feature-settings:'ss01']">
       <Header />
-      <body className="mx-auto max-w-[1400px] font-poppins">
+      <main className="mx-auto w-full h-full">
         <Outlet />
-      </body>
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }

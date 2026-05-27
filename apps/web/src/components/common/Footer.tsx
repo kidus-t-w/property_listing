@@ -1,59 +1,112 @@
-import { Facebook, Linkedin, Twitter } from "lucide-react";
+import { Facebook, Linkedin, Twitter, Mail, Phone, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="mt-8 bg-black p-16 text-white">
-      <div className="container mx-auto flex flex-col items-center justify-between px-4 lg:flex-row">
-        <div className="mb-6 text-center lg:mb-0 lg:text-left">
-          <h1 className="text-xl font-bold">Ethio Property</h1>
-          <p className="text-gray-500">All Rights Reserved, 2024</p>
-        </div>
-        <div className="mb-6 text-center lg:mb-0">
-          <nav className="">
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-2xl font-bold mt-8 text-gray-400 hover:text-white">
-                  Ethio Property
-                </a>
-              </li>
-              <li>
-                <a href="#" className="mt-8 text-gray-400 hover:text-white">
-                  Address: Bole, Namibia Street, Sheger building, <br></br>
-                  Office 701, Addis Ababa,Addis Ababa,Ethiopia
-                </a>
-              </li>
-              <li>
-                <a href="#" className="mt-8 text-gray-400 hover:text-white">
-                  E-mail: info@realethio.com
-                </a>
-              </li>
-              <li>
-                <a href="#" className="mt-8 text-gray-400 hover:text-white">
-                  Phone: +251911619180
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-        <div className="text-center lg:text-right">
-          <p className="mb-2 text-gray-400">Get to know us</p>
-          <div className="flex justify-center space-x-4 lg:justify-end">
-            <a href="https://www.linkedin.com/" className="text-gray-400 hover:text-white" target="_blank">
-              <div className="h-6 w-6 fill-current">
-              <Linkedin />
-              </div>
-            </a>
-            <a href="https://x.com/" className="text-gray-400 hover:text-white" target="_blank">
-              <div className="h-6 w-6 fill-current">
-                  <Twitter />
-              </div>
-            </a>
-            <a href="https://www.facebook.com/" className="text-gray-400 hover:text-white" target="_blank">
-              <div className="h-6 w-6 fill-current">
-                <Facebook />
-              </div>
-            </a>
+    <footer className="bg-white px-6 py-16 md:px-8 lg:px-12">
+      <div className="mx-auto max-w-7xl">
+        {/* Main footer grid */}
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
+          {/* Brand column */}
+          <div className="space-y-3">
+            <h2 className="text-xl font-light tracking-[-0.26px] text-[#0d253d]">
+              Ethio Property
+            </h2>
+            <p className="text-[13px] font-light text-[#64748d] leading-relaxed">
+              Ethiopia&apos;s premier real estate marketplace — connecting people with
+              property since 2020.
+            </p>
           </div>
+
+          {/* Address column */}
+          <div className="space-y-3">
+            <h3 className="text-[13px] font-normal uppercase tracking-[0.1px] text-[#0d253d]">
+              Visit Us
+            </h3>
+            <address className="not-italic space-y-2">
+              <div className="flex gap-2 text-[13px] font-light text-[#64748d]">
+                <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#533afd]/70" />
+                <span>
+                  Bole, Namibia Street, Sheger building,<br />
+                  Office 701, Addis Ababa, Ethiopia
+                </span>
+              </div>
+              <div className="flex gap-2 text-[13px] font-light text-[#64748d]">
+                <Phone className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#533afd]/70" />
+                <span>+251 911 619 180</span>
+              </div>
+              <div className="flex gap-2 text-[13px] font-light text-[#64748d]">
+                <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#533afd]/70" />
+                <span>info@realethio.com</span>
+              </div>
+            </address>
+          </div>
+
+          {/* Quick links */}
+          <div className="space-y-3">
+            <h3 className="text-[13px] font-normal uppercase tracking-[0.1px] text-[#0d253d]">
+              Explore
+            </h3>
+            <ul className="space-y-2">
+              {["Home", "Services", "Contact", "Listings"].map((item) => (
+                <li key={item}>
+                  <a
+                    href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
+                    className="text-[13px] font-light text-[#64748d] transition-colors hover:text-[#533afd]"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Social & legal */}
+          <div className="space-y-3">
+            <h3 className="text-[13px] font-normal uppercase tracking-[0.1px] text-[#0d253d]">
+              Connect
+            </h3>
+            <div className="flex gap-4">
+              <a
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#64748d] transition-colors hover:text-[#533afd]"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-5 w-5" />
+              </a>
+              <a
+                href="https://x.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#64748d] transition-colors hover:text-[#533afd]"
+                aria-label="X (Twitter)"
+              >
+                <Twitter className="h-5 w-5" />
+              </a>
+              <a
+                href="https://www.facebook.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#64748d] transition-colors hover:text-[#533afd]"
+                aria-label="Facebook"
+              >
+                <Facebook className="h-5 w-5" />
+              </a>
+            </div>
+            <div className="pt-4">
+              <p className="text-[11px] font-light text-[#64748d]">
+                &copy; {new Date().getFullYear()} Ethio Property. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom hairline and fine print */}
+        <div className="mt-12 border-t border-[#e3e8ee] pt-6 text-center">
+          <p className="text-[11px] font-light text-[#64748d]">
+            Designed with precision. Tabular figures and negative tracking applied.
+          </p>
         </div>
       </div>
     </footer>

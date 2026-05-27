@@ -2,8 +2,8 @@ import NewProperty from '@/components/property_listing/PropertyCreat'
 
 const PropertyListing: React.FC = () => {
   return (
-    <div className="flex flex-col lg:flex-row w-full">
-      <NewProperty/>
+    <div className="w-full bg-white">
+      <NewProperty />
     </div>
   );
 };
