@@ -32,7 +32,7 @@ export function Footer() {
               </div>
               <div className="flex gap-2 text-[13px] font-light text-[#64748d]">
                 <Phone className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#533afd]/70" />
-                <span>+251 911 619 180</span>
+                <span>+251 915579335</span>
               </div>
               <div className="flex gap-2 text-[13px] font-light text-[#64748d]">
                 <Mail className="mt-0.5 h-3.5 w-3.5 shrink-0 text-[#533afd]/70" />
@@ -47,7 +47,7 @@ export function Footer() {
               Explore
             </h3>
             <ul className="space-y-2">
-              {["Home", "Services", "Contact", "Listings"].map((item) => (
+              {["Home", "Services", "Contact"].map((item) => (
                 <li key={item}>
                   <a
                     href={`/${item.toLowerCase() === "home" ? "" : item.toLowerCase()}`}
@@ -102,12 +102,7 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom hairline and fine print */}
-        <div className="mt-12 border-t border-[#e3e8ee] pt-6 text-center">
-          <p className="text-[11px] font-light text-[#64748d]">
-            Designed with precision. Tabular figures and negative tracking applied.
-          </p>
-        </div>
+        
       </div>
     </footer>
   );
